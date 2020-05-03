@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+
 
 // MATERIAL ANGULAR
 // import {MatToolbarModule} from '@angular/material/toolbar';
@@ -45,6 +47,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
+import { UsuarioService } from './services/usuario.service';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,7 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     //MATERIAL
     MatInputModule,
     MatAutocompleteModule,
@@ -91,7 +95,9 @@ import {MatButtonModule} from '@angular/material/button';
     MatPaginatorModule,
     MatButtonModule 
   ],
-  providers: [],
+  providers: [
+    UsuarioService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

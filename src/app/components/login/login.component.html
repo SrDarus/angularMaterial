@@ -8,7 +8,7 @@
       <form [formGroup]="formUsuario">
           <mat-form-field class="w-full">
             <mat-label>Usuario</mat-label>
-            <input matInput formControlName="rut" (blur)="c(formUsuario)">
+            <input matInput formControlName="rut" (blur)="c(formUsuario)" cdkFocusInitial>
           </mat-form-field>
           <mat-form-field class="w-full">
             <mat-label>Password</mat-label>
@@ -21,8 +21,8 @@
       </div>
     </div>
     <div mat-dialog-actions>
-      <button mat-button (click)="onNoClick()">No Thanks</button>
-      <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+      <a mat-button [routerLink]="['/usuario/nuevoUsuario']" [mat-dialog-close]>Crear nuevo usuario</a>
+      <button mat-button [mat-dialog-close]="data.animal" class="m-l-auto">Iniciar sesión</button>
     </div>
     
   </mat-card>

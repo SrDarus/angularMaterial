@@ -215,10 +215,10 @@
 .m-r-19 {margin-right: 19rem;}
 .m-r-20 {margin-right: 20rem;}
 
-.m-l-r-auto {margin-left: auto;	margin-right: auto;}
-.m-l-auto {margin-left: auto;}
-.m-r-auto {margin-right: auto;}
-.m-auto {margin: auto;}
+.m-l-r-auto {margin-left: auto !important;	margin-right: auto !important;}
+.m-l-auto {margin-left: auto !important;}
+.m-r-auto {margin-right: auto !important;}
+.m-auto {margin: auto !important;}
 
 /*[ FONT SIZE ]
 ///////////////////////////////////////////////////////////
