@@ -1,1 +1,28 @@
-<p>login works!</p>
+<mat-card>
+
+  <div class="text-center">
+    <h1>Iniciar session</h1>
+</div>
+<div mat-dialog-content>
+  <div class="container">
+      <form [formGroup]="formUsuario">
+          <mat-form-field class="w-full">
+            <mat-label>Usuario</mat-label>
+            <input matInput formControlName="rut" (blur)="c(formUsuario)">
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="nombre">
+          </mat-form-field>
+          <!-- <mat-form-field>
+            <mat-checkbox >Check me!</mat-checkbox>
+          </mat-form-field> -->
+        </form>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+    </div>
+    
+  </mat-card>

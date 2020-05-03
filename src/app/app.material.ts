@@ -1,21 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-// MATERIAL ANGULAR
-// import {MatToolbarModule} from '@angular/material/toolbar';
-// import {MatButtonModule} from '@angular/material/button';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { LoginComponent } from './components/login/login.component';
-import { NuevoUsuarioComponent } from './components/login/nuevo-usuario/nuevo-usuario.component';
-import { HomeComponent } from './components/home/home.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-
-//MATERIAL
+//Angular Material Components
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -44,23 +29,12 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatButtonModule} from '@angular/material/button';
+
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    NuevoUsuarioComponent,
-    HomeComponent
-  ],
+//   declarations: [],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    FormsModule,
-    //MATERIAL
     MatInputModule,
     MatAutocompleteModule,
     MatDatepickerModule,
@@ -88,10 +62,11 @@ import {MatButtonModule} from '@angular/material/button';
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule,
-    MatButtonModule 
+    MatPaginatorModule
+
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+//   providers: [],
+//   bootstrap: []
 })
-export class AppModule { }
+// export class AppModule { }
+export class MaterialModule  { }
