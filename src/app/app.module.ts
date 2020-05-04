@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 // MATERIAL ANGULAR
@@ -64,6 +65,8 @@ import { UsuarioService } from './services/usuario.service';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    FlexLayoutModule,
+
     //MATERIAL
     MatInputModule,
     MatAutocompleteModule,
@@ -93,7 +96,8 @@ import { UsuarioService } from './services/usuario.service';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatButtonModule 
+    MatButtonModule,
+
   ],
   providers: [
     UsuarioService

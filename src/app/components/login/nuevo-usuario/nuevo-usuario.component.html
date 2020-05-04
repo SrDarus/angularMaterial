@@ -1,3 +1,23 @@
-<form [formGroup]="formNuevoUsuario">
-
-</form>
+<mat-card class="m-t-7 m-l-15 m-r-15">
+    <div class="bo text-center">
+        <h1>Iniciar Sesión</h1>
+    </div>
+    <form [formGroup]="formNuevoUsuario">
+        <div fxLayout="row">
+            <mat-form-field fxLayout="col" class="w-full">
+                <input matInput placeholder="Edad" formControlName="edad" class="bo w-full">
+            </mat-form-field>
+            <mat-form-field fxLayout="col" class="w-full">
+                <input matInput placeholder="Nombre de Usuario" formControlName="usuario" class="bo w-full">
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" class="bo h-1">
+            <div fxlayout="col" class="w-full bo h1">
+                1
+            </div>
+            <div fxlayout="col" class="w-full bo h1">
+                2
+            </div>
+        </div>
+    </form>
+</mat-card>

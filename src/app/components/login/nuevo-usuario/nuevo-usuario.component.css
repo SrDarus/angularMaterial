@@ -1,0 +1,15 @@
+.w-40 {
+    /* width: 40%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+td {
+    /* border: 1px red solid; */
+}
+
+table {
+    /* border: 1px blue solid; */
+}
