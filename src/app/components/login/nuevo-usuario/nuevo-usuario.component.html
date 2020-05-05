@@ -1,23 +1,46 @@
 <mat-card class="m-t-7 m-l-15 m-r-15">
-    <div class="bo text-center">
+    <div class="text-center">
         <h1>Iniciar Sesión</h1>
     </div>
     <form [formGroup]="formNuevoUsuario">
-        <div fxLayout="row">
-            <mat-form-field fxLayout="col" class="w-full">
-                <input matInput placeholder="Edad" formControlName="edad" class="bo w-full">
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+            <mat-form-field fxFlex appearance="outline" fxFlex="1 1 50%">
+                <mat-label>Rut</mat-label>
+                <input matInput formControlName="rut">
             </mat-form-field>
-            <mat-form-field fxLayout="col" class="w-full">
-                <input matInput placeholder="Nombre de Usuario" formControlName="usuario" class="bo w-full">
+            <mat-form-field fxFlex="1 1 50%">
+                <mat-label>Fecha Naciento</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
-        <div fxLayout="row" class="bo h-1">
-            <div fxlayout="col" class="w-full bo h1">
-                1
-            </div>
-            <div fxlayout="col" class="w-full bo h1">
-                2
-            </div>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Apellido</mat-label>
+                <input matInput formControlName="apellido">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Confirme Password</mat-label>
+                <input type="password" matInput formControlName="password2">
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+            <button mat-raised-button color="primary">
+                Confirmar
+            </button>
         </div>
     </form>
 </mat-card>

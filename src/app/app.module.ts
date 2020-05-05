@@ -49,6 +49,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 import { UsuarioService } from './services/usuario.service';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { UsuarioService } from './services/usuario.service';
     MatInputModule,
     MatAutocompleteModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatFormFieldModule,
     MatRadioModule,
     MatSelectModule,
@@ -100,7 +102,8 @@ import { UsuarioService } from './services/usuario.service';
 
   ],
   providers: [
-    UsuarioService
+    UsuarioService,
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })

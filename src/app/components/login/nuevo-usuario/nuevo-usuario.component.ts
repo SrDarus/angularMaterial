@@ -12,15 +12,30 @@ export class NuevoUsuarioComponent implements OnInit {
 
   formNuevoUsuario: FormGroup
   usuario: Usuario
+  edades: Array<number> = []
   constructor() { }
 
   ngOnInit(): void {
     this.formNuevoUsuario = new FormGroup({
       rut: new FormControl('', Validators.required),
       nombre: new FormControl('', Validators.required),
-      edad: new FormControl('', Validators.required),
-      usuario: new FormControl('', Validators.required)
+      apellido: new FormControl('', Validators.required),
+      fechaNacimiento: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      password2: new FormControl('', Validators.required)
     });
+  }
+
+  crearNuevoUsuario() {
+    [{
+      "rut": "104444199",
+      "nombre": "margarita",
+      "fechaNacimiento": "2020-04-29T04:00:00.000+0000",
+      "usuario": "magi",
+      "password": "Caradej1",
+      "fecha": "2020-04-29",
+      "perfil": 2
+    }];
   }
 
 }

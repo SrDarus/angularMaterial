@@ -690,8 +690,19 @@
 	border: 1px  solid black;
 }
 
-.border-danger{
-	border: 1px red;
+.bo-danger{
+	border: 1px red solid;
+}
+
+.bo-blue{
+	border: 1px blue solid;
+}
+
+.bo-green{
+	border: 1px green solid;
+}
+.bo-yellow{
+	border: 1px yellow solid;
 }
 
 /*[ border-radius ]
@@ -885,9 +896,6 @@ EFFECT   EFFECT   EFFECT   EFFECT   EFFECT   EFFECT  EFFECT
 .overlay0 {
     background-color: rgba(0,0,0,0.2);
 }
-
-
-
 
 
 
