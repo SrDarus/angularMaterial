@@ -12,30 +12,51 @@ export class NuevoUsuarioComponent implements OnInit {
 
   formNuevoUsuario: FormGroup
   usuario: Usuario
-  edades: Array<number> = []
-  constructor() { }
+  hide = true;
+
+  constructor(
+    private usuarioService: UsuarioService
+  ) { }
 
   ngOnInit(): void {
     this.formNuevoUsuario = new FormGroup({
       rut: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.email, Validators.required]),
       nombre: new FormControl('', Validators.required),
-      apellido: new FormControl('', Validators.required),
+      apellido: new FormControl(''),
       fechaNacimiento: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-      password2: new FormControl('', Validators.required)
+      newPassword: new FormControl('', Validators.required)
     });
+    this.obtenerUsuario()
   }
 
-  crearNuevoUsuario() {
-    [{
-      "rut": "104444199",
-      "nombre": "margarita",
-      "fechaNacimiento": "2020-04-29T04:00:00.000+0000",
-      "usuario": "magi",
-      "password": "Caradej1",
-      "fecha": "2020-04-29",
-      "perfil": 2
-    }];
+  registrarUsuario() {
+    console.log('nuevo usuario', this.formNuevoUsuario)
+    let jsonUsuario = {
+      
+    }
+    this.usuarioService.registrarUsuario(jsonUsuario).subscribe((result:any) => {
+      if(result.status===200){
+        alert(1)
+      }
+    })
+  }
+
+  obtenerUsuario(){
+    this.usuarioService.obtenerUsuarios().subscribe((result:any) => {
+      console.log('result', result)
+      if(result.status===200){
+        alert(1)
+      }
+    })
+  }
+
+  getErrorMessage(value) {
+    if (this.formNuevoUsuario.controls.email.hasError('required')) {
+      return 'El campo '+value+' es OBLIGATORIO' ;
+    }
+    return this.formNuevoUsuario.controls['email'].hasError('email') ? 'El correo electronico no es valido' : '';
   }
 
 }

@@ -3,15 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { Bug } from './bug';
+import { Result } from './result'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
- 
+
 
   // Base url
-  baseurl = 'http://localhost:8080';
+  baseurl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) { }
 
@@ -22,61 +23,21 @@ export class UsuarioService {
     })
   }
 
+  // GET
+  obtenerUsuarios(): Observable<Result> {
+    return this.http.get<Result>(this.baseurl + '/usuario/obtenerUsuarios', this.httpOptions)
+      .pipe(
+        retry(1),
+        //catchError(this.errorHandl)
+      )
+  }
+
   // POST
-  CreateBug(data): Observable<Bug> {
+  registrarUsuario(data): Observable<Bug> {
     return this.http.post<Bug>(this.baseurl + '/bugtracking/', JSON.stringify(data), this.httpOptions)
-    .pipe(
-      catchError(this.errorHandl)
-    )
-  }  
-
-  // GET
-  GetIssue(id): Observable<Bug> {
-    return this.http.get<Bug>(this.baseurl + '/bugtracking/' + id)
-    .pipe(
-      retry(1),
-      catchError(this.errorHandl)
-    )
+      .pipe(
+        //catchError(this.errorHandl)
+      )
   }
 
-  // GET
-  GetIssues(): Observable<Bug> {
-    return this.http.get<Bug>(this.baseurl + '/bugtracking/')
-    .pipe(
-      retry(1),
-      catchError(this.errorHandl)
-    )
-  }
-
-  // PUT
-  UpdateBug(id, data): Observable<Bug> {
-    return this.http.put<Bug>(this.baseurl + '/bugtracking/' + id, JSON.stringify(data), this.httpOptions)
-    .pipe(
-      retry(1),
-      catchError(this.errorHandl)
-    )
-  }
-
-  // DELETE
-  DeleteBug(id){
-    return this.http.delete<Bug>(this.baseurl + '/bugtracking/' + id, this.httpOptions)
-    .pipe(
-      retry(1),
-      catchError(this.errorHandl)
-    )
-  }
-
-  // Error handling
-  errorHandl(error) {
-     let errorMessage = '';
-     if(error.error instanceof ErrorEvent) {
-       // Get client-side error
-       errorMessage = error.error.message;
-     } else {
-       // Get server-side error
-       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-     }
-     console.log(errorMessage);
-     return throwError(errorMessage);
-  }
 }
