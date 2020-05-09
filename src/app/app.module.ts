@@ -50,6 +50,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 import { UsuarioService } from './services/usuario.service';
 import { MatNativeDateModule } from '@angular/material/core';
+import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     NavbarComponent,
     LoginComponent,
     NuevoUsuarioComponent,
-    HomeComponent
+    HomeComponent,
+    SnackBarComponent
   ],
   imports: [
     BrowserModule,

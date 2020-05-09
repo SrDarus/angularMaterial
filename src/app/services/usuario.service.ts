@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { Bug } from './bug';
 import { Result } from './result'
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -22,22 +23,54 @@ export class UsuarioService {
       'Content-Type': 'application/json'
     })
   }
+  
+  // POST
+  inisiarSesion(data): Observable<Bug> {
+    return this.http.post<Bug>(this.baseurl + '/bugtracking/', JSON.stringify(data), this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
 
   // GET
   obtenerUsuarios(): Observable<Result> {
     return this.http.get<Result>(this.baseurl + '/usuario/obtenerUsuarios', this.httpOptions)
       .pipe(
         retry(1),
-        //catchError(this.errorHandl)
+        catchError(this.handleError)
       )
   }
 
   // POST
-  registrarUsuario(data): Observable<Bug> {
-    return this.http.post<Bug>(this.baseurl + '/bugtracking/', JSON.stringify(data), this.httpOptions)
+  registrarUsuario(usuario: Usuario): Observable<Bug> {
+    return this.http.post<Bug>(this.baseurl + '/usuario/registrarUsuario/', JSON.stringify(usuario), this.httpOptions)
       .pipe(
-        //catchError(this.errorHandl)
+        retry(1),
+        catchError(this.handleError)
       )
+  }
+
+  // PUT
+  actualizarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(this.baseurl + '/usuario/actualizarUsuario', JSON.stringify(usuario), this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
 
 }

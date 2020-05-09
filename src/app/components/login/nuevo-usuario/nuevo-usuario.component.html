@@ -1,6 +1,7 @@
 <mat-card class="m-t-7 m-l-15 m-r-15">
     <div class="text-center">
         <h1>Iniciar Sesión</h1>
+        <button (click)="test()">test</button>
     </div>
     <form [formGroup]="formNuevoUsuario" (ngSubmit)="registrarUsuario()">
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
@@ -39,7 +40,7 @@
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Ingrese un Usuario</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" autocomplete="off">
                 <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                     [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -47,18 +48,18 @@
                 <mat-error *ngIf="formNuevoUsuario.controls.email.invalid">{{getErrorMessage('password')}}</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex appearance="outline">
-                <mat-label>Ingrese un Nuevo Password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="newPassword">
+                <mat-label>Repita el password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password2" autocomplete="off" (blur)="compararPassword($event)">
                 <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                     [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
-                <mat-error *ngIf="formNuevoUsuario.controls.email.invalid">{{getErrorMessage('newPasword')}}
+                <mat-error *ngIf="formNuevoUsuario.controls.email.invalid">{{getErrorMessage('password2')}}
                 </mat-error>
             </mat-form-field>
         </div>
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px" fxLayoutAlign="end">
-            <button mat-raised-button color="primary" [disabled]="!formNuevoUsuario.valid">
+            <button mat-raised-button color="primary">
                 Confirmar
             </button>
         </div>

@@ -5,7 +5,15 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-mat-grid-tile{
-    border: 1px blue solid;
-    /* height: 200px; */
+.mat-danger {
+    background-color: red;
+    color: white;
+}
+.mat-succes {
+    background-color: green;
+    color: white;
+}
+.mat-warning {
+    background-color: green;
+    color: white;
 }

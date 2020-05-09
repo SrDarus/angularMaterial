@@ -1,22 +1,28 @@
 export class Usuario {
-    rut:string
-    nombre:string
-    edad: number
-    usuario:string
-    fecha:string
-    perfil:number
+    email: String;
+    perfil:	number;
+    rut:	String;
+    nombre: String;
+    apellido: String; 
+    fechaNacimiento: Date;
+    fechaCreacion: 	Date;    
 
-    constructor(rut:string,
-        nombre:string,
-        edad:number,
-        usuario:string,
-        fecha:string,
-        perfil:number){
-            this.rut = rut
-            this.nombre = nombre
-            this.edad = edad
-            this.usuario = usuario
-            this.fecha = fecha
-            this.perfil = perfil        
+
+    constructor(
+        email: String,
+        perfil: number,
+        rut: String,
+        nombre: String,
+        apellido: String,
+        fechaNacimiento: Date,
+        fechaCreacion: Date
+    ){
+        this.email = email
+        this.perfil = perfil
+        this.rut = rut
+        this.nombre = nombre
+        this.apellido = apellido
+        this.fechaNacimiento = fechaNacimiento
+        this.fechaCreacion = fechaCreacion
     }
 }
