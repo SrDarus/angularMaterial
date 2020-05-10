@@ -45,4 +45,5 @@ export class UtilService {
     config.verticalPosition = 'top'
     this._snackBar.open(message, null, config);
   }
+  
 }

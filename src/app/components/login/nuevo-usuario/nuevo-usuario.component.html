@@ -1,7 +1,7 @@
 <mat-card class="m-t-7 m-l-15 m-r-15">
     <div class="text-center">
         <h1>Iniciar Sesión</h1>
-        <button (click)="test()">test</button>
+        <!-- <button (click)="test()">test</button> -->
     </div>
     <form [formGroup]="formNuevoUsuario" (ngSubmit)="registrarUsuario()">
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
@@ -15,7 +15,7 @@
                 <input matInput placeholder="email@example.com" formControlName="email">
                 <mat-error *ngIf="formNuevoUsuario.controls.email.invalid">{{getErrorMessage('email')}}</mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="1 1 50%">
+            <mat-form-field fxFlex="1 1 50%" appearance="outline">
                 <mat-label>Fecha Naciento</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -59,7 +59,7 @@
             </mat-form-field>
         </div>
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px" fxLayoutAlign="end">
-            <button mat-raised-button color="primary">
+            <button mat-raised-button color="primary" [disabled]="!formNuevoUsuario.valid">
                 Confirmar
             </button>
         </div>

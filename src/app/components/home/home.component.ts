@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -8,24 +8,16 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class HomeComponent implements OnInit {
 
-  c(a){console.log(a)}
+  c(a) { console.log(a) }
   constructor(private fb: FormBuilder) { }
 
-  formUsuario: FormGroup
-  formUsuario2: FormGroup
+  @ViewChild('imgMain', { static: true })
+  imgMain: ElementRef<HTMLCanvasElement>;
 
-  ngOnInit(): void {  
-    this.formUsuario = new FormGroup({
-      rut: new FormControl('', Validators.required),
-      nombre: new FormControl('', Validators.required)
-    });
+  private ctx: CanvasRenderingContext2D;
 
-    this.formUsuario2 = this.fb.group({
-      rut: ['', Validators.required],
-      nombre: ['', Validators.required],
-    });
-
-
+  ngOnInit(): void {
+    // this.ctx = this.imgMain.nativeElement.getContext('2d');
   }
 
 }

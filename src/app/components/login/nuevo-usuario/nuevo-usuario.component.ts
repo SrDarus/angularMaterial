@@ -34,7 +34,7 @@ export class NuevoUsuarioComponent implements OnInit {
       apellido: new FormControl(''),
       fechaNacimiento: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-      password2: new FormControl('', [Validators.required, this.ageRangeValidator])
+      password2: new FormControl('', [Validators.required])
     });
     this.obtenerUsuario()
   }
@@ -65,7 +65,6 @@ export class NuevoUsuarioComponent implements OnInit {
       console.log('result', result)
       if (result.status === 201) {
         // alert(1)
-
         //201 usuario creado
         //204 no content 
       }
@@ -92,14 +91,14 @@ export class NuevoUsuarioComponent implements OnInit {
   }
 
 
-  ageRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    console.log('password)', control)
-    //console.log('password', this.password())
-    if (control.value !== undefined && (isNaN(control.value) || control.value < 18 || control.value > 45)) {
-      return { 'ageRange': true };
-    }
-    return null;
-  }
+  // ageRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  //   console.log('password)', control)
+  //   //console.log('password', this.password())
+  //   if (control.value !== undefined && (isNaN(control.value) || control.value < 18 || control.value > 45)) {
+  //     return { 'ageRange': true };
+  //   }
+  //   return null;
+  // }
 
   get password() {
     return this.formNuevoUsuario.value.password
@@ -107,6 +106,11 @@ export class NuevoUsuarioComponent implements OnInit {
 
   compararPassword(event) {
     console.log('event', event)
+    console.log(this.formNuevoUsuario)
+    if(this.formNuevoUsuario.value.password !== this.formNuevoUsuario.value.password2){
+      this.utilsService.messageBad("No coinciden los password")
+      this.formNuevoUsuario.controls['password2'].setValue('')
+    }
 
   }
 

@@ -24,9 +24,9 @@ export class UsuarioService {
     })
   }
   
-  // POST
-  inisiarSesion(data): Observable<Bug> {
-    return this.http.post<Bug>(this.baseurl + '/bugtracking/', JSON.stringify(data), this.httpOptions)
+  // GET
+  inisiarSesion(email): Observable<Bug> {
+    return this.http.get<Bug>(this.baseurl + '/usuario/obtenerUsuario/'+email, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)

@@ -18,6 +18,10 @@ import { HomeComponent } from './components/home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 
+//SERVICES
+import { GlobalService } from "./global/global.service";
+import { UsuarioService } from './services/usuario.service';
+
 //MATERIAL
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -48,9 +52,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
-import { UsuarioService } from './services/usuario.service';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,8 @@ import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
     LoginComponent,
     NuevoUsuarioComponent,
     HomeComponent,
-    SnackBarComponent
+    SnackBarComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -104,6 +109,7 @@ import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 
   ],
   providers: [
+    GlobalService,
     UsuarioService,
     MatDatepickerModule
   ],
