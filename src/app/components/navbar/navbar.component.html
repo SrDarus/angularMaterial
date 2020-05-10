@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
-  Darus
+  <a [routerLink]="['/home']">
+    <!-- <mat-icon style="font-size: 7rem; margin-top: 5px">dashboard</mat-icon> -->
+    <img src="../../../assets/img/darus-logo.png" class="w-5 w-8 m-t-1">
+  </a>
   <div class="spacer"></div>
   <a mat-button routerLink="/Home">Home</a>
   <a mat-raised-button color="accent" (click)="login()">Login</a>

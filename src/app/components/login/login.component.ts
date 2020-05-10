@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -15,6 +15,9 @@ import { GlobalService } from 'src/app/global/global.service';
 export class LoginComponent {
   formLogin: FormGroup
   hidePassword = true;
+
+  @ViewChild('logo')
+  logo: ElementRef<HTMLCanvasElement>
 
   test(a) { console.log(a) }
   constructor(
