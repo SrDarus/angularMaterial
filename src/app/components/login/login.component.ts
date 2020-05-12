@@ -43,7 +43,7 @@ export class LoginComponent {
         var session = { 'usuario': this.formLogin.value.email};
         // // Guardo el objeto como un string
         // sessionStorage.setItem('session', JSON.stringify(session));
-        this.globalService.theItem = JSON.stringify(session);
+        this.globalService.sesion = JSON.stringify(session);
         this.router.navigate(['/main'])
         this.dialogRef.close();
       } else {

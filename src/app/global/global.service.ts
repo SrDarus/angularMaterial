@@ -5,14 +5,16 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class GlobalService {
-  itemValue = new BehaviorSubject(this.theItem);
+  itemValue = new BehaviorSubject(this.sesion);
 
-  set theItem(value) {
+  set sesion(value) {
     this.itemValue.next(value); // this will make sure to tell every subscriber about the change.
-    localStorage.setItem('theItem', value);
+    localStorage.setItem('sesion', value);
+    // sessionStorage.setItem('sesion', value);
   }
- 
-  get theItem() {
-    return localStorage.getItem('theItem');
+
+  get sesion() {
+    return localStorage.getItem('sesion');
+    // return sessionStorage.getItem('sesion');
   }
 }

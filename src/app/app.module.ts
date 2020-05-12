@@ -55,6 +55,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 import { MainComponent } from './components/main/main.component';
+import { PerfilComponent } from './components/login/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { MainComponent } from './components/main/main.component';
     NuevoUsuarioComponent,
     HomeComponent,
     SnackBarComponent,
-    MainComponent
+    MainComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

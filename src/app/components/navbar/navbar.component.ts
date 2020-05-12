@@ -10,19 +10,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
+  sesion:string = 'null'
   constructor(
     public dialog: MatDialog,
     private globalService: GlobalService,
-    private router: Router) { }
+    private router: Router) { 
+      // globalService.theItem
+    }
 
   ngOnInit(): void {
-    console.log()
-    if(!this.globalService.theItem) {
+    if(!this.globalService.sesion) {
       this.router.navigate(['home'])
     }else{
       this.router.navigate(['main'])
     }
+    this.globalService.itemValue.subscribe((nextValue) => {
+      console.log(nextValue)
+      console.log('typeof', typeof nextValue)
+      this.sesion = nextValue;  // this will happen on every change
+   })
   }
 
   login(): void {
@@ -33,6 +39,9 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-
+  cerrarSesion(): void {
+    this.globalService.sesion = JSON.stringify(null);
+    this.sesion = 'null'
+  }
 
 }

@@ -33,6 +33,15 @@ export class UsuarioService {
       )
   }
 
+  //GET
+  obtenerUsuario(email): Observable<Bug> {
+    return this.http.get<Bug>(this.baseurl + '/usuario/obtenerUsuario/'+email, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
   // GET
   obtenerUsuarios(): Observable<Result> {
     return this.http.get<Result>(this.baseurl + '/usuario/obtenerUsuarios', this.httpOptions)
@@ -53,7 +62,16 @@ export class UsuarioService {
 
   // PUT
   actualizarUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>(this.baseurl + '/usuario/actualizarUsuario', JSON.stringify(usuario), this.httpOptions)
+    return this.http.put<Usuario>(this.baseurl + '/usuario/actualizarUsuario/'+usuario.email, JSON.stringify(usuario), this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+  
+  // DELLETE
+  eliminarUsuario(email: string): Observable<Usuario> {
+    return this.http.delete<Usuario>(this.baseurl + '/usuario/eliminarUsuario/'+email, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)

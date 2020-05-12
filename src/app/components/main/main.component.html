@@ -1,1 +1,25 @@
-<p>main works!</p>
+<!-- <mat-card> -->
+<mat-drawer-container class="main-container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side">
+        <mat-list>
+            <mat-list-item>
+                <button mat-icon-button>
+                    <mat-icon>build</mat-icon>
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <a href=""> Sushi </a>
+            </mat-list-item>
+        </mat-list>
+    </mat-drawer>
+
+    <div class="sidenav-content">
+        <button *ngIf="!btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <button *ngIf="btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+</mat-drawer-container>
+<!-- </mat-card> -->

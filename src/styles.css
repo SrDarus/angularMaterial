@@ -8,6 +8,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-size: 10px;
 }
 
+a{
+    text-decoration: none;
+}
+
+
 .mat-danger {
     background-color: red;
     color: white;
