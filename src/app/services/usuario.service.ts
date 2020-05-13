@@ -73,7 +73,7 @@ export class UsuarioService {
   eliminarUsuario(email: string): Observable<Usuario> {
     return this.http.delete<Usuario>(this.baseurl + '/usuario/eliminarUsuario/'+email, this.httpOptions)
       .pipe(
-        retry(1),
+        // retry(1),
         catchError(this.handleError)
       )
   }

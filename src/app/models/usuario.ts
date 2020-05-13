@@ -5,7 +5,8 @@ export class Usuario {
     nombre: String;
     apellido: String; 
     fechaNacimiento: Date;
-    fechaCreacion: 	Date;    
+    fechaCreacion: 	Date;   
+    password: 	String;    
 
 
     constructor(
@@ -15,7 +16,8 @@ export class Usuario {
         nombre: String,
         apellido: String,
         fechaNacimiento: Date,
-        fechaCreacion: Date
+        fechaCreacion: Date,
+        password?: String
     ){
         this.email = email
         this.perfil = perfil
@@ -24,5 +26,6 @@ export class Usuario {
         this.apellido = apellido
         this.fechaNacimiento = fechaNacimiento
         this.fechaCreacion = fechaCreacion
+        this.password = password
     }
 }

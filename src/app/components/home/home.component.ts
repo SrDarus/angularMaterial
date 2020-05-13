@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +7,10 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class HomeComponent implements OnInit {
 
-  c(a) { console.log(a) }
-  constructor(private fb: FormBuilder) { }
-
-
+  test(a) { console.log(a) }
+  constructor() { }
 
   ngOnInit(): void {
-    // this.ctx = this.imgMain.nativeElement.getContext('2d');
   }
 
 }

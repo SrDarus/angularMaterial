@@ -35,10 +35,9 @@ export class LoginComponent {
   }
 
   iniciarSesion() {
-    console.log('email', this.formLogin.value.email)
-    this.usuarioService.inisiarSesion(this.formLogin.value.email).subscribe((result: any) => {
-      console.log('result', result)
-      if (result !== null && this.formLogin.value.password === result.password) {
+    // console.log('email', this.formLogin.value.email)
+    this.usuarioService.inisiarSesion(this.formLogin.value.email).subscribe((response: any) => {
+      if (response.status === 200  && this.formLogin.value.password === response.result.password) {
         // this.utilService.messageGod("ok")
         var session = { 'usuario': this.formLogin.value.email};
         // // Guardo el objeto como un string

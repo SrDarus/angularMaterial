@@ -3,6 +3,7 @@ import { LoginComponent } from '../login/login.component';
 import {MatDialog} from '@angular/material/dialog';
 import { GlobalService } from 'src/app/global/global.service';
 import { Router } from '@angular/router';
+import { UtilService } from 'src/app/utils/util.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,19 +15,19 @@ export class NavbarComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private globalService: GlobalService,
-    private router: Router) { 
+    private router: Router,
+    private utilService: UtilService) { 
       // globalService.theItem
     }
 
   ngOnInit(): void {
-    if(!this.globalService.sesion) {
+    if(this.globalService.sesion == 'null') {
       this.router.navigate(['home'])
     }else{
       this.router.navigate(['main'])
     }
     this.globalService.itemValue.subscribe((nextValue) => {
-      console.log(nextValue)
-      console.log('typeof', typeof nextValue)
+      console.log("nextValue", nextValue)
       this.sesion = nextValue;  // this will happen on every change
    })
   }
@@ -34,14 +35,13 @@ export class NavbarComponent implements OnInit {
   login(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '50%',
-      // data: {authUser: 'darus'}
-      // data: {authUser: this.authUser.usuario}
     });
   }
 
   cerrarSesion(): void {
     this.globalService.sesion = JSON.stringify(null);
     this.sesion = 'null'
+    this.utilService.messageWarning("Sesión Cerrada")
   }
 
 }

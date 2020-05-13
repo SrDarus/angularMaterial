@@ -25,32 +25,36 @@ export class PerfilComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.utilService.messageBad("mensaje")
     this.usuario = JSON.parse(this.globalService.sesion)
-    console.log('suario', this.usuario)
+    // console.log('suario', this.usuario)
 
     this.formEditarUsuario = new FormGroup({
-      rut: new FormControl('', Validators.required),
+      rut: new FormControl(''),
       email: new FormControl('', [Validators.email, Validators.required]),
       nombre: new FormControl('', Validators.required),
-      apellido: new FormControl(''),
-      fechaNacimiento: new FormControl('', Validators.required)
+      apellido: new FormControl('', Validators.required),
+      fechaNacimiento: new FormControl('')
     });
-    this.usuarioService.obtenerUsuario(this.usuario.usuario).subscribe(result => {
-      console.log('result', result)
-      this.usuario = result
-      //if(result['status'] === 200) {
-      //}
-      this.formEditarUsuario.controls['email'].setValue(result['email']);
-      this.formEditarUsuario.controls['nombre'].setValue(result['nombre']);
-      this.formEditarUsuario.controls['apellido'].setValue(result['apellido']);
-      this.formEditarUsuario.controls['fechaNacimiento'].setValue(result['fechaNacimiento']);
-      this.formEditarUsuario.controls['rut'].setValue(result['rut']);
+    this.usuarioService.obtenerUsuario(this.usuario.usuario).subscribe((response:any) => {
+      // console.log('response', response)
+      this.usuario = response.result
+      if(response.status === 200) {
+        this.formEditarUsuario.controls['email'].setValue(this.usuario.email);
+        this.formEditarUsuario.controls['nombre'].setValue(this.usuario.nombre);
+        this.formEditarUsuario.controls['apellido'].setValue(this.usuario.apellido);
+        this.formEditarUsuario.controls['fechaNacimiento'].setValue(this.usuario.fechaNacimiento);
+        this.formEditarUsuario.controls['rut'].setValue(this.usuario.rut);
+      }else{
+        this.utilService.messageBad("Problemas con el usuario")
+        this.router.navigate(['/main'])
+      }
     })
   }
 
   actualizarUsuario(): void {
-    console.log('nuevo usuario', this.formEditarUsuario)
-    console.log('Usuario', this.usuario)
+    // console.log('nuevo usuario', this.formEditarUsuario)
+    // console.log('Usuario', this.usuario)
     this.usuario = new Usuario(
       this.formEditarUsuario.value.email,
       this.formEditarUsuario.value.perfil,
@@ -58,17 +62,31 @@ export class PerfilComponent implements OnInit {
       this.formEditarUsuario.value.nombre,
       this.formEditarUsuario.value.apellido,
       this.formEditarUsuario.value.fechaNacimiento,
-      this.formEditarUsuario.value.fechaCreacion,
+      this.formEditarUsuario.value.fechaCreacion
     )
-    console.log("Usuario", this.usuario)
-    this.usuarioService.actualizarUsuario(this.usuario).subscribe((result: any) => {
-      console.log('result', result)
-      if (result.status === 201) {
-        // alert(1)
-        //201 usuario creado
-        //204 no content 
+    // console.log("Usuario", this.usuario)
+    this.usuarioService.actualizarUsuario(this.usuario).subscribe((response: any) => {
+      // console.log('response', response)
+      if (response.status === 200) {
+        this.utilService.messageGod("Usuario Actualizado Correctamente")
+      }else {
+        this.utilService.messageBad("No se pudo actualizar")
       }
-      this.utilService.messageGod("Usuario Actualizado Correctamente")
+    })
+  }
+
+  eliminarUsuario() {
+    console.log(this.usuario)
+    this.usuarioService.eliminarUsuario(this.usuario.email).subscribe((response:any)=>{
+      // console.log(response)
+      if(response.status  === 200){
+        this.utilService.messageGod("Ha cancelado su cuenta")
+        this.globalService.sesion = 'null'
+        // console.log("this.globalService", this.globalService)
+        this.router.navigate(['/home'])
+      }else{
+        this.utilService.messageBad("No pudimos cancelar su cuenta. Intentelo mas tarde")
+      }
     })
   }
 
@@ -80,15 +98,6 @@ export class PerfilComponent implements OnInit {
       return 'El campo repetir password es OBLIGATORIO';
     }
     return this.formEditarUsuario.controls['email'].hasError('email') ? 'El correo electronico no es valido' : '';
-  }
-
-  eliminarUsuario() {
-    console.log(this.usuario)
-    this.usuarioService.eliminarUsuario(this.usuario.email).subscribe((result:any)=>{
-      console.log(result)
-      this.utilService.messageGod("Ha cancelado su cuenta")
-      this.router.navigate(['/main'])
-    })
   }
 
 }

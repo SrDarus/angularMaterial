@@ -4,15 +4,15 @@
         </div>
         <form [formGroup]="formEditarUsuario" (ngSubmit)="actualizarUsuario()">
             <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
-                <mat-form-field fxFlex appearance="outline" fxFlex="1 1 50%">
-                    <mat-label>Rut</mat-label>
-                    <input matInput formControlName="rut" (blur)="test(formEditarUsuario)">
-                    <mat-error *ngIf="formEditarUsuario.controls.email.invalid">{{getErrorMessage('rut')}}</mat-error>
-                </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Correo Electronico</mat-label>
                     <input matInput placeholder="email@example.com" formControlName="email">
                     <mat-error *ngIf="formEditarUsuario.controls.email.invalid">{{getErrorMessage('email')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="outline" fxFlex="1 1 50%">
+                    <mat-label>Rut</mat-label>
+                    <input matInput formControlName="rut">
+                    <mat-error *ngIf="formEditarUsuario.controls.email.invalid">{{getErrorMessage('rut')}}</mat-error>
                 </mat-form-field>
                 <mat-form-field fxFlex="1 1 50%" appearance="outline">
                     <mat-label>Fecha Naciento</mat-label>

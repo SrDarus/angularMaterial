@@ -14,7 +14,7 @@ export class UtilService {
     let config = new MatSnackBarConfig();
     config.duration = 5000;
     config.panelClass = ['mat-danger'];
-    config.horizontalPosition = 'end'
+    config.horizontalPosition = 'center'
     config.verticalPosition = 'top'
     this._snackBar.open("This is a message!", "ACTION", config);
   }
@@ -23,8 +23,8 @@ export class UtilService {
     let config = new MatSnackBarConfig();
     config.duration = 3000;
     config.panelClass = ['mat-danger'];
-    config.horizontalPosition = 'end'
-    config.verticalPosition = 'top'
+    config.horizontalPosition = 'center'
+    config.verticalPosition = 'top',
     this._snackBar.open(message, null, config);
   }
 
@@ -32,8 +32,9 @@ export class UtilService {
     let config = new MatSnackBarConfig();
     config.duration = 3000;
     config.panelClass = ['mat-succes'];
-    config.horizontalPosition = 'end'
-    config.verticalPosition = 'top'
+    config.horizontalPosition = 'center'
+    config.verticalPosition = 'top',
+    // config.panelClass = ['mycsssnackbartest ']
     this._snackBar.open(message, null, config);
   }
 
@@ -42,7 +43,8 @@ export class UtilService {
     config.duration = 3000;
     config.panelClass = ['mat-warning'];
     config.horizontalPosition = 'end'
-    config.verticalPosition = 'top'
+    config.verticalPosition = 'top',
+    // config.panelClass = ['mycsssnackbartest ']
     this._snackBar.open(message, null, config);
   }
   
