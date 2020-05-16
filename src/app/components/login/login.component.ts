@@ -37,9 +37,13 @@ export class LoginComponent {
   iniciarSesion() {
     // console.log('email', this.formLogin.value.email)
     this.usuarioService.inisiarSesion(this.formLogin.value.email).subscribe((response: any) => {
+      console.log('response', response)
       if (response.status === 200  && this.formLogin.value.password === response.result.password) {
         // this.utilService.messageGod("ok")
-        var session = { 'usuario': this.formLogin.value.email};
+        var session = { 
+          'usuario': this.formLogin.value.email,
+          'perfil': response.result.perfil
+        };
         // // Guardo el objeto como un string
         // sessionStorage.setItem('session', JSON.stringify(session));
         this.globalService.sesion = JSON.stringify(session);
@@ -48,7 +52,10 @@ export class LoginComponent {
       } else {
         this.utilService.messageBad("Usuario o Password incorrectos")
       }
-    })
+    }), console.error(error=>{
+      console.log("error : "+error.getMessage())
+    });
+    
 
   }
 

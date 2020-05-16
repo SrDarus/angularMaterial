@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { formatDate } from '@angular/common';
 import { Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { retry, catchError } from 'rxjs/operators';
 import { Bug } from './bug';
 import { Result } from './result'
@@ -38,15 +40,26 @@ export class UsuarioService {
     return this.http.get<Bug>(this.baseurl + '/usuario/obtenerUsuario/'+email, this.httpOptions)
       .pipe(
         retry(1),
+
         catchError(this.handleError)
       )
   }
 
   // GET
   obtenerUsuarios(): Observable<Result> {
-    return this.http.get<Result>(this.baseurl + '/usuario/obtenerUsuarios', this.httpOptions)
+    return this.http.post<Result>(this.baseurl + '/usuario/obtenerUsuarios', [], this.httpOptions)
       .pipe(
         retry(1),
+        map((response:any) => {
+          console.log('response', response)
+          // let _response = response
+          response.result.map( usuario =>{
+            usuario.fechaNacimiento = formatDate(usuario.fechaNacimiento, "dd-MM-yyyy", "en-US")
+            usuario.fechaCreacion = formatDate(usuario.fechaCreacion, "dd-MM-yyyy", "en-US")
+            return usuario as Usuario
+          });
+          return response
+        }),
         catchError(this.handleError)
       )
   }

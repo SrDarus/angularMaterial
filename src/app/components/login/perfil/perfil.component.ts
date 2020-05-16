@@ -25,7 +25,6 @@ export class PerfilComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.utilService.messageBad("mensaje")
     this.usuario = JSON.parse(this.globalService.sesion)
     // console.log('suario', this.usuario)
 

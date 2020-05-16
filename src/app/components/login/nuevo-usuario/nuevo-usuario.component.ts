@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { Usuario } from 'src/app/models/usuario';
-import { UtilService } from 'src/app/utils/util.service';
 import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
+
+//MODEL
+import { Usuario } from 'src/app/models/usuario';
+
+//SERVICES
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { UtilService } from 'src/app/utils/util.service';
 import { GlobalService } from 'src/app/global/global.service';
 
 @Component({
@@ -35,22 +40,12 @@ export class NuevoUsuarioComponent implements OnInit {
       nombre: new FormControl('', Validators.required),
       apellido: new FormControl(''),
       fechaNacimiento: new FormControl(''),
-      password: new FormControl('', Validators.required),
-      password2: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      password2: new FormControl('', [Validators.required, Validators.minLength(4)])
     });
   }
 
-
-
-  iniciarSesion() {
-    let sendIniciarSesion = {}
-    //this.usuarioService.inisiarSesion().subscribe(response=>{
-
-    //})
-  }
-
   registrarUsuario(): void {
-    // console.log('nuevo usuario', this.formNuevoUsuario)
     this.usuario = new Usuario(
       this.formNuevoUsuario.value.email,
       this.formNuevoUsuario.value.perfil,
@@ -62,6 +57,9 @@ export class NuevoUsuarioComponent implements OnInit {
       this.formNuevoUsuario.value.password
     )
     // console.log("Usuario", this.usuario)
+    if(this.usuario.fechaNacimiento) { 
+      this.usuario.fechaNacimiento = formatDate(this.usuario.fechaNacimiento, 'yyyy-MM-dd', 'en-US')
+    }
     this.usuarioService.registrarUsuario(this.usuario).subscribe((response: any) => {
       // console.log('response', response)
       if (response.status === 200) {

@@ -56,6 +56,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 import { MainComponent } from './components/main/main.component';
 import { PerfilComponent } from './components/login/perfil/perfil.component';
+import { AdministradorComponent } from './components/administrador/administrador.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { PerfilComponent } from './components/login/perfil/perfil.component';
     HomeComponent,
     SnackBarComponent,
     MainComponent,
-    PerfilComponent
+    PerfilComponent,
+    AdministradorComponent
   ],
   imports: [
     BrowserModule,

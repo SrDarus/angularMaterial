@@ -1,23 +1,23 @@
 export class Usuario {
-    email: String;
+    email: string;
     perfil:	number;
-    rut:	String;
-    nombre: String;
-    apellido: String; 
-    fechaNacimiento: Date;
-    fechaCreacion: 	Date;   
-    password: 	String;    
+    rut:	string;
+    nombre: string;
+    apellido: string; 
+    fechaNacimiento: string;
+    fechaCreacion: 	string;   
+    password: 	string;    
 
 
     constructor(
-        email: String,
+        email: string,
         perfil: number,
-        rut: String,
-        nombre: String,
-        apellido: String,
-        fechaNacimiento: Date,
-        fechaCreacion: Date,
-        password?: String
+        rut: string,
+        nombre: string,
+        apellido: string,
+        fechaNacimiento: string,
+        fechaCreacion: string,
+        password?: string
     ){
         this.email = email
         this.perfil = perfil

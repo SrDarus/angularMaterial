@@ -47,5 +47,11 @@ export class UtilService {
     // config.panelClass = ['mycsssnackbartest ']
     this._snackBar.open(message, null, config);
   }
+
+  formatearFechaParaBack(fecha):string {
+    console.log('fecha', fecha)
+    console.log('typeof', typeof fecha)
+    return ''
+  }
   
 }

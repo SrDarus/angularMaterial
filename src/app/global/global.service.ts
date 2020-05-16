@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class GlobalService {
+export class  GlobalService {
   itemValue = new BehaviorSubject(this.sesion);
 
   set sesion(value) {

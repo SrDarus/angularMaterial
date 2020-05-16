@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { GlobalService } from 'src/app/global/global.service';
 import { Router } from '@angular/router';
 import { UtilService } from 'src/app/utils/util.service';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import { UtilService } from 'src/app/utils/util.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  sesion:string = 'null'
+  usuario: Usuario
   constructor(
     public dialog: MatDialog,
     private globalService: GlobalService,
@@ -21,14 +22,14 @@ export class NavbarComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.usuario = new Usuario('', 0, '', '', '', null, null)
     if(this.globalService.sesion == 'null') {
       this.router.navigate(['home'])
     }else{
       this.router.navigate(['main'])
     }
-    this.globalService.itemValue.subscribe((nextValue) => {
-      console.log("nextValue", nextValue)
-      this.sesion = nextValue;  // this will happen on every change
+    this.globalService.itemValue.subscribe((nextValue:any) => {
+      this.usuario =JSON.parse(nextValue) as Usuario // this will happen on every change
    })
   }
 
@@ -40,8 +41,8 @@ export class NavbarComponent implements OnInit {
 
   cerrarSesion(): void {
     this.globalService.sesion = JSON.stringify(null);
-    this.sesion = 'null'
-    this.utilService.messageWarning("Sesión Cerrada")
+    this.usuario = null
+    this.router.navigate(['home'])
   }
 
 }
