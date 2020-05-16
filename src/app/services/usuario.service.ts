@@ -64,6 +64,25 @@ export class UsuarioService {
       )
   }
 
+    // GET
+    obtenerUsuariosBack(page): Observable<Result> {
+      return this.http.post<Result>(this.baseurl + '/usuario/obtenerUsuarios/page/'+ page, [], this.httpOptions)
+        .pipe(
+          retry(1),
+          map((response:any) => {
+            console.log('response', response)
+            // let _response = response
+            response.result.content.map( usuario =>{
+              usuario.fechaNacimiento = formatDate(usuario.fechaNacimiento, "dd-MM-yyyy", "en-US")
+              usuario.fechaCreacion = formatDate(usuario.fechaCreacion, "dd-MM-yyyy", "en-US")
+              return usuario as Usuario
+            });
+            return response
+          }),
+          catchError(this.handleError)
+        )
+    }
+
   // POST
   registrarUsuario(usuario: Usuario): Observable<Bug> {
     return this.http.post<Bug>(this.baseurl + '/usuario/registrarUsuario/', JSON.stringify(usuario), this.httpOptions)
