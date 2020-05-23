@@ -6,6 +6,7 @@ export class Usuario {
     apellido: string; 
     fechaNacimiento: string;
     fechaCreacion: 	string;   
+    foto: string;
     password: 	string;    
 
 
@@ -17,6 +18,7 @@ export class Usuario {
         apellido: string,
         fechaNacimiento: string,
         fechaCreacion: string,
+        foto: string,
         password?: string
     ){
         this.email = email
@@ -26,6 +28,7 @@ export class Usuario {
         this.apellido = apellido
         this.fechaNacimiento = fechaNacimiento
         this.fechaCreacion = fechaCreacion
+        this.foto = foto
         this.password = password
     }
 }

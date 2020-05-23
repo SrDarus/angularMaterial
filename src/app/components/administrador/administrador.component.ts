@@ -17,7 +17,11 @@ export class AdministradorComponent implements OnInit {
 
   displayedColumns: string[] = ['email', 'rut', 'nombre', 'apellido', 'fechaNacimiento', 'fechaCreacion'];
   dsUsuarios: any
+
+  //PAGINACION DESDE EL BACKENS
   dsUsuariosBack: any
+  pagina: number = 0;
+  _paginationButtons: any
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -28,6 +32,20 @@ export class AdministradorComponent implements OnInit {
     private utilService: UtilService) { }
 
   ngOnInit(): void {
+
+    this._paginationButtons = {
+      empty: false,
+      first: true,
+      last: false,
+      number: 0,
+      numberOfElements: 10,
+      pageable: { sort: {}, offset: 0, pageSize: 10, pageNumber: 0, paged: true },
+      size: 10,
+      sort: { sorted: false, unsorted: true, empty: true },
+      totalElements: 23,
+      totalPages: 3,
+    }
+
     this.usuarioService.obtenerUsuarios().subscribe((response: any) => {
       console.log("*********************", response)
       if (response.status === 200) {
@@ -35,13 +53,53 @@ export class AdministradorComponent implements OnInit {
         this.dsUsuarios.paginator = this.paginator;
       }
     })
-    let pagina = 2
-    this.usuarioService.obtenerUsuariosBack(pagina).subscribe((response: any) => {
-      console.log("*********************", response)
+    this.usuarioService.obtenerUsuariosBack(this.pagina).subscribe((response: any) => {
+      // console.log("*********************", response)
       if (response.status === 200) {
         this.dsUsuariosBack = response.result.content;
+        this._paginationButtons = response.result;
+        // this._paginationButtons = response
+        this._paginationButtons = response.result
+        delete this._paginationButtons.content
+        console.log('test', this._paginationButtons)
+
       }
     })
   }
 
+  buscarSiguiente() {
+    this.pagina = this.pagina + 1
+    console.log('pagina', this.pagina)
+    this.usuarioService.obtenerUsuariosBack(this.pagina).subscribe((response: any) => {
+      console.log("*********************", response)
+      if (response.status === 200) {
+        this.dsUsuariosBack = response.result.content;
+        this._paginationButtons = response.result;
+        // this._paginationButtons = response
+        this._paginationButtons = response.result
+        delete response.result.content
+        console.log('test', this._paginationButtons)
+      }
+    })
+  }
+
+  buscarAnterior() {
+    this.pagina = this.pagina - 1
+    console.log('pagina', this.pagina)
+    this.usuarioService.obtenerUsuariosBack(this.pagina).subscribe((response: any) => {
+      console.log("*********************", response)
+      if (response.status === 200) {
+        this.dsUsuariosBack = response.result.content;
+        this._paginationButtons = response.result;
+        // this._paginationButtons = response
+        this._paginationButtons = response.result
+        delete response.result.content
+        console.log('test', this._paginationButtons)
+      }
+    })
+  }
+
+  get paginationButtons() {
+    return this._paginationButtons
+  }
 }

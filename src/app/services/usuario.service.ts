@@ -30,7 +30,7 @@ export class UsuarioService {
   inisiarSesion(email): Observable<Bug> {
     return this.http.get<Bug>(this.baseurl + '/usuario/obtenerUsuario/'+email, this.httpOptions)
       .pipe(
-        retry(1),
+        // retry(1),
         catchError(this.handleError)
       )
   }
@@ -39,8 +39,7 @@ export class UsuarioService {
   obtenerUsuario(email): Observable<Bug> {
     return this.http.get<Bug>(this.baseurl + '/usuario/obtenerUsuario/'+email, this.httpOptions)
       .pipe(
-        retry(1),
-
+        // retry(1),
         catchError(this.handleError)
       )
   }
@@ -49,7 +48,7 @@ export class UsuarioService {
   obtenerUsuarios(): Observable<Result> {
     return this.http.post<Result>(this.baseurl + '/usuario/obtenerUsuarios', [], this.httpOptions)
       .pipe(
-        retry(1),
+        // retry(1),
         map((response:any) => {
           console.log('response', response)
           // let _response = response
@@ -68,7 +67,7 @@ export class UsuarioService {
     obtenerUsuariosBack(page): Observable<Result> {
       return this.http.post<Result>(this.baseurl + '/usuario/obtenerUsuarios/page/'+ page, [], this.httpOptions)
         .pipe(
-          retry(1),
+          // retry(1),
           map((response:any) => {
             console.log('response', response)
             // let _response = response
@@ -96,7 +95,7 @@ export class UsuarioService {
   actualizarUsuario(usuario: Usuario): Observable<Usuario> {
     return this.http.put<Usuario>(this.baseurl + '/usuario/actualizarUsuario/'+usuario.email, JSON.stringify(usuario), this.httpOptions)
       .pipe(
-        retry(1),
+        // retry(1),
         catchError(this.handleError)
       )
   }
@@ -110,16 +109,31 @@ export class UsuarioService {
       )
   }
 
+  subirFotoUsuario(archivo: File, id:string): Observable<Result> {
+    let formData = new FormData();
+    formData.append("imagen", archivo)
+    formData.append("email", id)
+    console.log("FormData", formData)
+    return this.http.post<Result>(this.baseurl + '/usuario/subirFoto/', formData)
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  
+
   handleError(error) {
-    let errorMessage = '';
+    let errorMessage = {status: 500, message: null, result: null};
     if (error.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${error.error.message}`;
+    
+    errorMessage.result = error
+      errorMessage.message = `Error: ${error.error.message}`;
     } else {
-      // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    
+    errorMessage.result = error
+      errorMessage.message = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
+    console.log('handleError', errorMessage);
     return throwError(errorMessage);
   }
 

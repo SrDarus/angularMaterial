@@ -96,6 +96,11 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       <div class="pagination w-full">
-
+        <button mat-icon-button (click)="buscarAnterior()" [disabled]="paginationButtons.first">
+          <mat-icon>skip_previous</mat-icon>
+        </button>
+        <button mat-icon-button (click)="buscarSiguiente()" [disabled]="paginationButtons.last">
+            <mat-icon>skip_next</mat-icon>
+        </button>
       </div>
 </mat-card>

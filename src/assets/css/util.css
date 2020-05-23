@@ -522,9 +522,24 @@
 /*[ Background ]
 -----------------------------------------------------------
 */
-.bgwhite {background-color: white;}
-.bgblack {background-color: black;}
+.bgwhite {background-color: #FFFFFF;}
+.bgBlack {background-color: #111111}
 
+.bgNavy {background-color: #001f3f}
+.bgBlueAqua {background-color: #0074D9}
+.bgAqua {background-color: #7FDBFF}
+.bgTeal {background-color: #39CCCC}
+.bgOlive {background-color: #3D9970}
+.bgGreen {background-color: #2ECC40}
+.bgLime {background-color: #01FF70}
+.bgYellowDark {background-color: #FFDC00}
+.bgORANGE {background-color: #FF851B}
+.bgRedAqua {background-color: #FF4136}
+.bgMaroon {background-color: #85144b}
+.bgFuchsia {background-color: #F012BE}
+.bgPurple {background-color: #B10DC9}
+.bgGray {background-color: #AAAAAA}
+.bgSilver {background-color: #DDDDDD}
 
 /*[ Hover ]
 -----------------------------------------------------------
@@ -752,6 +767,9 @@
 .bo-rad-8 {border-radius: 8rem;}
 .bo-rad-9 {border-radius: 9rem;}
 .bo-rad-10 {border-radius: 10rem;}
+.bo-rad-circle {
+	border-radius: 50%;
+}
 
 .bo-t-rad-2 {
 	border-top-left-radius: 2rem;
@@ -762,10 +780,6 @@
 	border-bottom-left-radius: 2rem;
 	border-bottom-right-radius: 2rem;
 }
-
-
-
-
 
 /*=========================================================
 EFFECT   EFFECT   EFFECT   EFFECT   EFFECT   EFFECT  EFFECT

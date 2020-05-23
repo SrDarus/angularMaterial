@@ -5,6 +5,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { UtilService } from 'src/app/utils/util.service';
 import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/global/global.service';
+import { Usuario } from 'src/app/models/usuario';
 
 
 @Component({
@@ -35,25 +36,31 @@ export class LoginComponent {
   }
 
   iniciarSesion() {
-    // console.log('email', this.formLogin.value.email)
     this.usuarioService.inisiarSesion(this.formLogin.value.email).subscribe((response: any) => {
-      console.log('response', response)
+      console.log("resposne", response)
       if (response.status === 200  && this.formLogin.value.password === response.result.password) {
         // this.utilService.messageGod("ok")
-        var session = { 
-          'usuario': this.formLogin.value.email,
-          'perfil': response.result.perfil
-        };
-        // // Guardo el objeto como un string
-        // sessionStorage.setItem('session', JSON.stringify(session));
-        this.globalService.sesion = JSON.stringify(session);
+        let usuario:Usuario = response.result;
+        console.log("usuario", usuario)
+        // Guardo el objeto como un string
+        this.globalService.sesion = JSON.stringify(usuario);
         this.router.navigate(['/main'])
         this.dialogRef.close();
-      } else {
-        this.utilService.messageBad("Usuario o Password incorrectos")
       }
-    }), console.error(error=>{
-      console.log("error : "+error.getMessage())
+      else {
+        if(response.status === 404){
+          this.utilService.messageBad("El usuario Ingresado no existe")
+        }else{
+            this.utilService.messageBad("Problemas con el servidor. Contactese con el administrador")
+        }
+      }
+    },
+    error => {
+      if(error){
+        console.log("ERROR", error)
+        console.log("ERROR", error.status)
+        this.utilService.messageBad("Problemas con el servidor contactese con el administrador");
+      }
     });
     
 

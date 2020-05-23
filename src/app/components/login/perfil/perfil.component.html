@@ -1,4 +1,5 @@
-<mat-card class="m-t-7 m-l-15 m-r-15">
+<div class="w-full h-full p-t-7 bgSilver">
+    <mat-card class="m-l-15 m-r-15">
         <div class="text-center">
             <h1>Editar Usuario</h1>
         </div>
@@ -27,21 +28,28 @@
                 <mat-form-field fxFlex appearance="outline">
                     <mat-label>Nombre</mat-label>
                     <input matInput formControlName="nombre">
-                    <mat-error *ngIf="formEditarUsuario.controls.email.invalid">{{getErrorMessage('nombre')}}</mat-error>
+                    <mat-error *ngIf="formEditarUsuario.controls.email.invalid">{{getErrorMessage('nombre')}}
+                    </mat-error>
                 </mat-form-field>
-    
+
                 <mat-form-field fxFlex appearance="outline">
                     <mat-label>Apellido</mat-label>
                     <input matInput formControlName="apellido">
                 </mat-form-field>
+                <button type="button" mat-raised-button class="h-4" (click)="fileInput.click()">Seleccione
+                    imagen</button>
+                <button type="button" mat-raised-button class="h-4" (click)="subirFoto()">Subir</button>
+                <input hidden (change)="seleccionarFoto($event.target.files)" #fileInput type="file" id="file">
             </div>
-            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px" fxLayoutAlign="end">
-                    <button mat-raised-button color="primary" (click)="eliminarUsuario()">
-                        Dar de Baja
-                    </button>
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px"
+                fxLayoutAlign="end">
+                <button mat-raised-button color="primary" (click)="eliminarUsuario()">
+                    Dar de Baja
+                </button>
                 <button mat-raised-button color="primary" [disabled]="!formEditarUsuario.valid">
                     Confirmar
                 </button>
             </div>
         </form>
     </mat-card>
+</div>

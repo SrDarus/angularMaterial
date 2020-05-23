@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/models/usuario';
 import { UtilService } from 'src/app/utils/util.service';
 import { Router } from '@angular/router';
+import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 
 @Component({
   selector: 'app-perfil',
@@ -16,7 +17,12 @@ export class PerfilComponent implements OnInit {
   hide = true;
   usuario: any;
   formEditarUsuario: FormGroup
-  test(a) {console.log(a)}
+  foto: any;
+  test(a) { console.log(a) }
+
+
+
+
   constructor(
     private globalService: GlobalService,
     private usuarioService: UsuarioService,
@@ -26,7 +32,6 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuario = JSON.parse(this.globalService.sesion)
-    // console.log('suario', this.usuario)
 
     this.formEditarUsuario = new FormGroup({
       rut: new FormControl(''),
@@ -35,16 +40,18 @@ export class PerfilComponent implements OnInit {
       apellido: new FormControl('', Validators.required),
       fechaNacimiento: new FormControl('')
     });
-    this.usuarioService.obtenerUsuario(this.usuario.usuario).subscribe((response:any) => {
+    this.usuarioService.obtenerUsuario(this.usuario.usuario).subscribe((response: any) => {
       // console.log('response', response)
-      this.usuario = response.result
-      if(response.status === 200) {
+      
+      if (response.status === 200) {
+        this.usuario = response.result
+        console.log('suario', this.usuario)
         this.formEditarUsuario.controls['email'].setValue(this.usuario.email);
         this.formEditarUsuario.controls['nombre'].setValue(this.usuario.nombre);
         this.formEditarUsuario.controls['apellido'].setValue(this.usuario.apellido);
         this.formEditarUsuario.controls['fechaNacimiento'].setValue(this.usuario.fechaNacimiento);
         this.formEditarUsuario.controls['rut'].setValue(this.usuario.rut);
-      }else{
+      } else {
         this.utilService.messageBad("Problemas con el usuario")
         this.router.navigate(['/main'])
       }
@@ -61,6 +68,7 @@ export class PerfilComponent implements OnInit {
       this.formEditarUsuario.value.nombre,
       this.formEditarUsuario.value.apellido,
       this.formEditarUsuario.value.fechaNacimiento,
+      '',
       this.formEditarUsuario.value.fechaCreacion
     )
     // console.log("Usuario", this.usuario)
@@ -68,7 +76,7 @@ export class PerfilComponent implements OnInit {
       // console.log('response', response)
       if (response.status === 200) {
         this.utilService.messageGod("Usuario Actualizado Correctamente")
-      }else {
+      } else {
         this.utilService.messageBad("No se pudo actualizar")
       }
     })
@@ -76,14 +84,14 @@ export class PerfilComponent implements OnInit {
 
   eliminarUsuario() {
     console.log(this.usuario)
-    this.usuarioService.eliminarUsuario(this.usuario.email).subscribe((response:any)=>{
+    this.usuarioService.eliminarUsuario(this.usuario.email).subscribe((response: any) => {
       // console.log(response)
-      if(response.status  === 200){
+      if (response.status === 200) {
         this.utilService.messageGod("Ha cancelado su cuenta")
         this.globalService.sesion = 'null'
         // console.log("this.globalService", this.globalService)
         this.router.navigate(['/home'])
-      }else{
+      } else {
         this.utilService.messageBad("No pudimos cancelar su cuenta. Intentelo mas tarde")
       }
     })
@@ -97,6 +105,40 @@ export class PerfilComponent implements OnInit {
       return 'El campo repetir password es OBLIGATORIO';
     }
     return this.formEditarUsuario.controls['email'].hasError('email') ? 'El correo electronico no es valido' : '';
+  }
+
+  srcResult
+  onFileSelected() {
+    const inputNode: any = document.querySelector('#file');
+
+    if (typeof (FileReader) !== 'undefined') {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.srcResult = e.target.result;
+      };
+
+      reader.readAsArrayBuffer(inputNode.files[0]);
+    }
+  }
+
+  seleccionarFoto(foto) {
+    this.foto = foto[0]
+    console.log(foto)
+  }
+
+  subirFoto() {
+    this.usuarioService.subirFotoUsuario(this.foto, this.usuario.email).subscribe(
+      (response) => {
+        console.log(response)
+        if (response.status === 200) {
+          this.usuario.foto = response.result.foto
+          this.utilService.messageGod("Imagen subida correntamente")
+        }
+      }, (error) => {
+        this.utilService.messageBad("Problemas con el servidor. contacte con un admnistrador")
+      }
+    )
   }
 
 }
