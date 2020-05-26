@@ -38,7 +38,11 @@ export class LoginComponent {
   iniciarSesion() {
     this.usuarioService.inisiarSesion(this.formLogin.value.email).subscribe((response: any) => {
       console.log("resposne", response)
-      if (response.status === 200  && this.formLogin.value.password === response.result.password) {
+      if (response.status === 200) {
+        if(this.formLogin.value.password != response.result.password){
+          this.utilService.messageBad("Contraseña insersada incorrecta");
+          return
+        }
         // this.utilService.messageGod("ok")
         let usuario:Usuario = response.result;
         console.log("usuario", usuario)

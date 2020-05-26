@@ -5,7 +5,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/models/usuario';
 import { UtilService } from 'src/app/utils/util.service';
 import { Router } from '@angular/router';
-import { __core_private_testing_placeholder__ } from '@angular/core/testing';
+import { HttpEventType } from '@angular/common/http';
+import {ThemePalette} from '@angular/material/core';
+import {ProgressBarMode} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-perfil',
@@ -18,10 +20,13 @@ export class PerfilComponent implements OnInit {
   usuario: any;
   formEditarUsuario: FormGroup
   foto: any;
+  progreso: number = 0
+
+  color: ThemePalette = 'primary';
+  mode: ProgressBarMode = 'determinate';
+  progresoValue = 0;
+  bufferValue = 100;
   test(a) { console.log(a) }
-
-
-
 
   constructor(
     private globalService: GlobalService,
@@ -40,12 +45,11 @@ export class PerfilComponent implements OnInit {
       apellido: new FormControl('', Validators.required),
       fechaNacimiento: new FormControl('')
     });
-    this.usuarioService.obtenerUsuario(this.usuario.usuario).subscribe((response: any) => {
+    this.usuarioService.obtenerUsuario(this.usuario.email).subscribe((response: any) => {
       // console.log('response', response)
-      
       if (response.status === 200) {
         this.usuario = response.result
-        console.log('suario', this.usuario)
+        // console.log('suario', this.usuario)
         this.formEditarUsuario.controls['email'].setValue(this.usuario.email);
         this.formEditarUsuario.controls['nombre'].setValue(this.usuario.nombre);
         this.formEditarUsuario.controls['apellido'].setValue(this.usuario.apellido);
@@ -73,8 +77,10 @@ export class PerfilComponent implements OnInit {
     )
     // console.log("Usuario", this.usuario)
     this.usuarioService.actualizarUsuario(this.usuario).subscribe((response: any) => {
-      // console.log('response', response)
+      console.log('response', response)
       if (response.status === 200) {
+        this.usuario = response.result
+        this.globalService.sesion = JSON.stringify(this.usuario);
         this.utilService.messageGod("Usuario Actualizado Correctamente")
       } else {
         this.utilService.messageBad("No se pudo actualizar")
@@ -124,16 +130,40 @@ export class PerfilComponent implements OnInit {
 
   seleccionarFoto(foto) {
     this.foto = foto[0]
-    console.log(foto)
+    this.progreso = 0
+    if (this.foto.type.indexOf('image') < 0) {
+      console.log("this.foto.type", this.foto.type)
+      this.foto = null
+      this.utilService.messageBad("Debe serleccionar un formato para imagen")
+    }
   }
 
   subirFoto() {
+    if (!this.foto) {
+      this.utilService.messageBad("Debe seleccionar una foto");
+    }
     this.usuarioService.subirFotoUsuario(this.foto, this.usuario.email).subscribe(
-      (response) => {
-        console.log(response)
-        if (response.status === 200) {
-          this.usuario.foto = response.result.foto
-          this.utilService.messageGod("Imagen subida correntamente")
+      (event:any) => {
+        console.log('event', event)
+        console.log('total', event.total)
+        if(event.type === HttpEventType.UploadProgress){
+          const subido = Math.round(100 * event.loaded / event.total);
+          this.progresoValue = subido;
+          console.log("progresoValue", this.progresoValue)
+          this.utilService.messageWarning(subido)
+        }else {
+          if(event.type === HttpEventType.Response){
+            let response = event.body
+            if (response.status === 200) {
+              this.usuario = response.result
+              this.globalService.sesion = JSON.stringify(this.usuario);
+              this.usuario.foto = response.result.foto
+              this.utilService.messageGod("Imagen subida correntamente")
+              this.progresoValue = 0
+            }
+
+          }
+          this.progresoValue = 0
         }
       }, (error) => {
         this.utilService.messageBad("Problemas con el servidor. contacte con un admnistrador")

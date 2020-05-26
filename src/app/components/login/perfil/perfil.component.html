@@ -38,11 +38,25 @@
                 </mat-form-field>
                 <button type="button" mat-raised-button class="h-4" (click)="fileInput.click()">Seleccione
                     imagen</button>
-                <button type="button" mat-raised-button class="h-4" (click)="subirFoto()">Subir</button>
+                <button type="button" mat-raised-button class="h-4" (click)="subirFoto()"
+                    [disabled]="!this.foto">Subir</button>
                 <input hidden (change)="seleccionarFoto($event.target.files)" #fileInput type="file" id="file">
             </div>
-            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px"
-                fxLayoutAlign="end">
+            <div *ngIf="progresoValue > 0" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px"
+                fxLayoutAlign="center">
+                <section class="w-full">
+                    <mat-progress-bar 
+                        class="h-2" 
+                        [color]="color" 
+                        [mode]="mode" 
+                        [value]="progresoValue"
+                        [bufferValue]="bufferValue">
+                    </mat-progress-bar>
+                </section>
+
+            </div>
+            <div class="m-t-1" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px"
+                fxLayoutGap.xs="10px" fxLayoutAlign="end">
                 <button mat-raised-button color="primary" (click)="eliminarUsuario()">
                     Dar de Baja
                 </button>

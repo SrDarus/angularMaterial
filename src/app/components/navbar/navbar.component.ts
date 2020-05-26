@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/global/global.service';
 import { Router } from '@angular/router';
 import { UtilService } from 'src/app/utils/util.service';
@@ -19,22 +19,23 @@ export class NavbarComponent implements OnInit {
     private globalService: GlobalService,
     private usuarioService: UsuarioService,
     private router: Router,
-    private utilService: UtilService) { 
-      // globalService.theItem
-    }
+    private utilService: UtilService) {
+    // globalService.theItem
+  }
 
   ngOnInit(): void {
     this.usuario = new Usuario('', 0, '', '', '', null, null, "")
-    console.log("usuario 1", this.usuario)
-    if(this.globalService.sesion == 'null') {
+    this.globalService.itemValue.subscribe((nextValue: any) => {
+      console.log("nextValue", nextValue)
+      this.usuario = JSON.parse(nextValue) as Usuario // this will happen on every change
+    })
+    // console.log("usuario nav: ", this.usuario)
+    if (this.globalService.sesion == 'null') {
       this.router.navigate(['home'])
-    }else{
+    } else {
       this.router.navigate(['main'])
     }
-    this.globalService.itemValue.subscribe((nextValue:any) => {
-      console.log("nextValue", nextValue)
-      this.usuario =JSON.parse(nextValue) as Usuario // this will happen on every change
-   })
+
   }
 
   login(): void {

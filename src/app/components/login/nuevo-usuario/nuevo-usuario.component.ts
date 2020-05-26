@@ -54,6 +54,7 @@ export class NuevoUsuarioComponent implements OnInit {
       this.formNuevoUsuario.value.apellido,
       this.formNuevoUsuario.value.fechaNacimiento,
       this.formNuevoUsuario.value.fechaCreacion,
+      "",
       this.formNuevoUsuario.value.password
     )
     // console.log("Usuario", this.usuario)
@@ -61,12 +62,11 @@ export class NuevoUsuarioComponent implements OnInit {
       this.usuario.fechaNacimiento = formatDate(this.usuario.fechaNacimiento, 'yyyy-MM-dd', 'en-US')
     }
     this.usuarioService.registrarUsuario(this.usuario).subscribe((response: any) => {
-      // console.log('response', response)
+      console.log('response', response)
       if (response.status === 200) {
+        this.usuario = response.result
+        this.globalService.sesion = JSON.stringify(this.usuario);
         this.utilsService.messageGod("Usuario Registrado")
-        // console.log('response.email', response.result.email)
-        var session = { 'usuario': response.result.email};
-        this.globalService.sesion = JSON.stringify(session);
         this.router.navigate(['/main'])
       }else{
         if(response.status === 409){
