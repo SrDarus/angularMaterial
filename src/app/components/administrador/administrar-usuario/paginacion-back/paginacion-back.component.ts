@@ -1,48 +1,38 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Usuario } from 'src/app/models/usuario';
-import { GlobalService } from 'src/app/global/global.service';
-import { Router } from '@angular/router';
-import { UtilService } from 'src/app/utils/util.service';
+import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { AppSettings } from 'src/app/app.config';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Usuario } from 'src/app/models/usuario';
+import { Perfil } from 'src/app/models/perfil';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-administrador',
-  templateUrl: './administrador.component.html',
-  styleUrls: ['./administrador.component.css']
+  selector: 'app-paginacion-back',
+  templateUrl: './paginacion-back.component.html',
+  styleUrls: ['./paginacion-back.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
-export class AdministradorComponent implements OnInit {
+export class PaginacionBackComponent implements OnInit {
+  columnsToDisplay: Array<string> = ['email', 'rut', 'nombre', 'apellido', 'fechaNacimiento', 'fechaCreacion'];
+  expandedElement: Usuario | null
+  dsUsuarios: Array<Usuario>
 
+  formUsuario: FormGroup
 
-  displayedColumns: string[] = ['email', 'rut', 'nombre', 'apellido', 'fechaNacimiento', 'fechaCreacion'];
-  dsUsuarios: any
-
-  btnMenu:boolean
-  
-  readonly sidenavConfig = AppSettings.SIDENAV_CONFIG
-
-  //PAGINACION DESDE EL BACKENS
-  dsUsuariosBack: any
   pagina: number = 0;
   _paginationButtons: any
-
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  perfiles: Array<Perfil>;
 
   constructor(
-    private usuarioService: UsuarioService,
-    private globalService: GlobalService,
-    private router: Router,
-    private utilService: UtilService,
-    
-    ) { }
+    private usuarioService: UsuarioService
+  ) { }
 
   ngOnInit(): void {
-    // this.router.navigate([{ outlets: { 'administrador': ['administrador/administrarUsuario']}}])
-    //  this.router.navigateByUrl('/administrador(administrador:administrarUsuario)');
-    // this.router.navigateByUrl('/administrador/(administrador:administrarUsuario)');
-    // this.router.navigateByUrl('/home/(administrador:administrador/administrarUsuario//route2:page2//route3:page3)');
     this._paginationButtons = {
       empty: false,
       first: true,
@@ -55,18 +45,30 @@ export class AdministradorComponent implements OnInit {
       totalElements: 23,
       totalPages: 3,
     }
+    let perfil = new Perfil(0, '');
 
-    this.usuarioService.obtenerUsuarios().subscribe((response: any) => {
-      // console.log("*********************", response)
-      if (response.status === 200) {
-        this.dsUsuarios = new MatTableDataSource<Usuario>(response.result);
-        this.dsUsuarios.paginator = this.paginator;
+    this.usuarioService.obtenerPerfiles().subscribe((response:any)=>{
+      console.log("response", response)
+      if(response.status===200){
+        this.perfiles = response.result
       }
     })
+
+    this.formUsuario = new FormGroup({
+      rut: new FormControl(''),
+      perfil: new FormControl(null, Validators.required),
+      email: new FormControl('', [Validators.email, Validators.required]),
+      nombre: new FormControl('', Validators.required),
+      apellido: new FormControl(''),
+      fechaNacimiento: new FormControl('')
+    });
+
+
+
     this.usuarioService.obtenerUsuariosBack(this.pagina).subscribe((response: any) => {
       // console.log("*********************", response)
       if (response.status === 200) {
-        this.dsUsuariosBack = response.result.content;
+        this.dsUsuarios = response.result.content;
         this._paginationButtons = response.result;
         // this._paginationButtons = response
         this._paginationButtons = response.result
@@ -77,13 +79,14 @@ export class AdministradorComponent implements OnInit {
     })
   }
 
+  
   buscarSiguiente() {
     this.pagina = this.pagina + 1
     console.log('pagina', this.pagina)
     this.usuarioService.obtenerUsuariosBack(this.pagina).subscribe((response: any) => {
       console.log("*********************", response)
       if (response.status === 200) {
-        this.dsUsuariosBack = response.result.content;
+        this.dsUsuarios = response.result.content;
         this._paginationButtons = response.result;
         // this._paginationButtons = response
         this._paginationButtons = response.result
@@ -99,7 +102,7 @@ export class AdministradorComponent implements OnInit {
     this.usuarioService.obtenerUsuariosBack(this.pagina).subscribe((response: any) => {
       console.log("*********************", response)
       if (response.status === 200) {
-        this.dsUsuariosBack = response.result.content;
+        this.dsUsuarios = response.result.content;
         this._paginationButtons = response.result;
         // this._paginationButtons = response
         this._paginationButtons = response.result
@@ -112,4 +115,5 @@ export class AdministradorComponent implements OnInit {
   get paginationButtons() {
     return this._paginationButtons
   }
+
 }

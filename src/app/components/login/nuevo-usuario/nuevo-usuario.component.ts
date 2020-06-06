@@ -10,6 +10,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { UtilService } from 'src/app/utils/util.service';
 import { GlobalService } from 'src/app/global/global.service';
+import { Perfil } from 'src/app/models/perfil';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -46,6 +47,7 @@ export class NuevoUsuarioComponent implements OnInit {
   }
 
   registrarUsuario(): void {
+    // let perfil = new Perfil(2, " ");
     this.usuario = new Usuario(
       this.formNuevoUsuario.value.email,
       this.formNuevoUsuario.value.perfil,
@@ -62,7 +64,7 @@ export class NuevoUsuarioComponent implements OnInit {
       this.usuario.fechaNacimiento = formatDate(this.usuario.fechaNacimiento, 'yyyy-MM-dd', 'en-US')
     }
     this.usuarioService.registrarUsuario(this.usuario).subscribe((response: any) => {
-      console.log('response', response)
+      // console.log('response', response)
       if (response.status === 200) {
         this.usuario = response.result
         this.globalService.sesion = JSON.stringify(this.usuario);

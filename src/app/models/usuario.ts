@@ -1,6 +1,8 @@
+import { Perfil } from './perfil';
+
 export class Usuario {
     email: string;
-    perfil:	number;
+    perfil:	Perfil;
     rut:	string;
     nombre: string;
     apellido: string; 
@@ -12,7 +14,7 @@ export class Usuario {
 
     constructor(
         email: string,
-        perfil: number,
+        perfil: Perfil,
         rut: string,
         nombre: string,
         apellido: string,

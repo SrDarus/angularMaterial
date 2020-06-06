@@ -1,106 +1,25 @@
-<mat-card>
-    <h1>Usuarios paginados desde el front</h1>
-    <table mat-table [dataSource]="dsUsuarios" class="w-full">
+<mat-drawer-container class="h-full" [hasBackdrop]="sidenavConfig.hasBackdrop.value">
+  <mat-drawer #drawer [mode]="sidenavConfig.mode.side" class="h-full" opened>
+    <mat-nav-list>
+      <mat-list-item>
+        <a [routerLink]="[{ outlets: { administrador: ['administrarUsuario']}}]">Administrar Usuarios</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a [routerLink]="[{ outlets: { administrador: ['administrarProductos']}}]">Administrar Productos</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a [routerLink]="['/administrarUsuario']">Contact Us</a>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <button *ngIf="btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+    <button *ngIf="!btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <router-outlet name="administrador" class="bo-warning"></router-outlet>
+  </mat-drawer-content>
 
-        <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-      
-        <!-- Position Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="rut">
-          <th mat-header-cell *matHeaderCellDef> RUT </th>
-          <td mat-cell *matCellDef="let element"> {{element.rut}} </td>
-        </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="nombre">
-          <th mat-header-cell *matHeaderCellDef> Nombre </th>
-          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="apellido">
-          <th mat-header-cell *matHeaderCellDef> Apellido </th>
-          <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="fechaNacimiento">
-          <th mat-header-cell *matHeaderCellDef> Fecha Nacimiento </th>
-          <td mat-cell *matCellDef="let element"> {{element.fechaNacimiento}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="fechaCreacion">
-          <th mat-header-cell *matHeaderCellDef> Fecha Creación </th>
-          <td mat-cell *matCellDef="let element"> {{element.fechaCreacion}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-</mat-card>
-
-<mat-divider></mat-divider>
-
-<mat-card>
-    <h1>Usuarios paginados desde el back</h1>
-    <table mat-table [dataSource]="dsUsuariosBack" class="w-full">
-
-        <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-      
-        <!-- Position Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="rut">
-          <th mat-header-cell *matHeaderCellDef> RUT </th>
-          <td mat-cell *matCellDef="let element"> {{element.rut}} </td>
-        </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="nombre">
-          <th mat-header-cell *matHeaderCellDef> Nombre </th>
-          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="apellido">
-          <th mat-header-cell *matHeaderCellDef> Apellido </th>
-          <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="fechaNacimiento">
-          <th mat-header-cell *matHeaderCellDef> Fecha Nacimiento </th>
-          <td mat-cell *matCellDef="let element"> {{element.fechaNacimiento}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="fechaCreacion">
-          <th mat-header-cell *matHeaderCellDef> Fecha Creación </th>
-          <td mat-cell *matCellDef="let element"> {{element.fechaCreacion}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <div class="pagination w-full">
-        <button mat-icon-button (click)="buscarAnterior()" [disabled]="paginationButtons.first">
-          <mat-icon>skip_previous</mat-icon>
-        </button>
-        <button mat-icon-button (click)="buscarSiguiente()" [disabled]="paginationButtons.last">
-            <mat-icon>skip_next</mat-icon>
-        </button>
-      </div>
-</mat-card>
+</mat-drawer-container>

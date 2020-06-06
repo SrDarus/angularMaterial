@@ -5,19 +5,28 @@ import { NuevoUsuarioComponent } from './components/login/nuevo-usuario/nuevo-us
 import { MainComponent } from './components/main/main.component';
 import { PerfilComponent } from './components/login/perfil/perfil.component';
 import { AdministradorComponent } from './components/administrador/administrador.component';
+import { AdministrarUsuarioComponent } from './components/administrador/administrar-usuario/administrar-usuario.component';
+import { AdministrarProductosComponent } from './components/administrador/administrar-productos/administrar-productos.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'main', component: MainComponent },
-  { path: 'administrador', component: AdministradorComponent },
+  { path: 'administrador', component: AdministradorComponent,
+      children: [
+        { path: 'administrarUsuario', component: AdministrarUsuarioComponent, outlet: "administrador" },
+        { path: 'administrarProductos', component: AdministrarProductosComponent, outlet: "administrador" },
+        { path: '', redirectTo: 'administrarUsuario', pathMatch: 'full'},
+      ] 
+  },
+  { path: 'administrarUsuario', component: AdministrarUsuarioComponent },
   { path: 'usuario/nuevoUsuario', component: NuevoUsuarioComponent },
   { path: 'usuario/perfil', component: PerfilComponent },
   { path: '**', component: HomeComponent }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{onSameUrlNavigation: 'ignore'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

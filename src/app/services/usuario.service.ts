@@ -7,6 +7,7 @@ import { retry, catchError } from 'rxjs/operators';
 import { Bug } from './bug';
 import { Result } from './result'
 import { Usuario } from '../models/usuario';
+import { AppSettings } from '../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class UsuarioService {
 
 
   // Base url
-  baseurl = 'http://localhost:8080/api';
+  readonly baseurl = AppSettings.API_ENDPOINT_LOCAL;
 
   constructor(private http: HttpClient) { }
 
@@ -50,7 +51,7 @@ export class UsuarioService {
       .pipe(
         // retry(1),
         map((response: any) => {
-          console.log('response', response)
+//          console.log('response', response)
           // let _response = response
           response.result.map(usuario => {
             usuario.fechaNacimiento = formatDate(usuario.fechaNacimiento, "dd-MM-yyyy", "en-US")
@@ -69,7 +70,7 @@ export class UsuarioService {
       .pipe(
         // retry(1),
         map((response: any) => {
-          console.log('response', response)
+          // console.log('response', response)
           // let _response = response
           response.result.content.map(usuario => {
             usuario.fechaNacimiento = formatDate(usuario.fechaNacimiento, "dd-MM-yyyy", "en-US")
@@ -113,14 +114,20 @@ export class UsuarioService {
     let formData = new FormData();
     formData.append("imagen", archivo)
     formData.append("email", id)
-    console.log("FormData", formData)
+    //console.log("FormData", formData)
     const req = new HttpRequest('POST', this.baseurl + '/usuario/subirFoto/', formData, {
       reportProgress: true
     });
     return this.http.request<Result>(req)
   }
 
-
+  obtenerPerfiles(){
+    return this.http.get<Bug>(this.baseurl + '/usuario/obtenerPerfiles', this.httpOptions)
+    .pipe(
+      // retry(1),
+      catchError(this.handleError)
+    )
+  }
 
   handleError(error) {
     let errorMessage = { status: 500, message: null, result: null };

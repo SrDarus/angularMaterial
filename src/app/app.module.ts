@@ -57,6 +57,11 @@ import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 import { MainComponent } from './components/main/main.component';
 import { PerfilComponent } from './components/login/perfil/perfil.component';
 import { AdministradorComponent } from './components/administrador/administrador.component';
+import { AdministrarUsuarioComponent } from './components/administrador/administrar-usuario/administrar-usuario.component';
+import { AppSettings } from './app.config';
+import { AdministrarProductosComponent } from './components/administrador/administrar-productos/administrar-productos.component';
+import { PaginacionFrontComponent } from './components/administrador/administrar-usuario/paginacion-front/paginacion-front.component';
+import { PaginacionBackComponent } from './components/administrador/administrar-usuario/paginacion-back/paginacion-back.component';
 
 @NgModule({
   declarations: [
@@ -68,8 +73,12 @@ import { AdministradorComponent } from './components/administrador/administrador
     SnackBarComponent,
     MainComponent,
     PerfilComponent,
-    AdministradorComponent
-  ],
+    AdministradorComponent,
+    AdministrarUsuarioComponent,
+    AdministrarProductosComponent,
+    PaginacionFrontComponent,
+    PaginacionBackComponent
+  ],  
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -115,7 +124,8 @@ import { AdministradorComponent } from './components/administrador/administrador
   providers: [
     GlobalService,
     UsuarioService,
-    MatDatepickerModule
+    MatDatepickerModule,
+    AppSettings
   ],
   bootstrap: [AppComponent]
 })

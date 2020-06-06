@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UtilService } from 'src/app/utils/util.service';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { Perfil } from 'src/app/models/perfil';
 
 @Component({
   selector: 'app-navbar',
@@ -24,12 +25,12 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usuario = new Usuario('', 0, '', '', '', null, null, "")
+    let perfil = new Perfil(0, "")
+    this.usuario = new Usuario('', perfil, '', '', '', null, null, "")
     this.globalService.itemValue.subscribe((nextValue: any) => {
-      console.log("nextValue", nextValue)
+      // console.log("nextValue", nextValue)
       this.usuario = JSON.parse(nextValue) as Usuario // this will happen on every change
     })
-    // console.log("usuario nav: ", this.usuario)
     if (this.globalService.sesion == 'null') {
       this.router.navigate(['home'])
     } else {

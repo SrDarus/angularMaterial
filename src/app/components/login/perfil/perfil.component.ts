@@ -113,7 +113,7 @@ export class PerfilComponent implements OnInit {
     return this.formEditarUsuario.controls['email'].hasError('email') ? 'El correo electronico no es valido' : '';
   }
 
-  srcResult
+  private srcResult
   onFileSelected() {
     const inputNode: any = document.querySelector('#file');
 
@@ -144,8 +144,8 @@ export class PerfilComponent implements OnInit {
     }
     this.usuarioService.subirFotoUsuario(this.foto, this.usuario.email).subscribe(
       (event:any) => {
-        console.log('event', event)
-        console.log('total', event.total)
+        // console.log('event', event)
+        // console.log('total', event.total)
         if(event.type === HttpEventType.UploadProgress){
           const subido = Math.round(100 * event.loaded / event.total);
           this.progresoValue = subido;
