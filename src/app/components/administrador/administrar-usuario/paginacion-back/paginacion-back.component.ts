@@ -6,6 +6,7 @@ import { Perfil } from 'src/app/models/perfil';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/utils/util.service';
 import { GlobalService } from 'src/app/global/global.service';
+import { find } from 'rxjs/operators';
 
 @Component({
   selector: 'app-paginacion-back',
@@ -26,6 +27,7 @@ export class PaginacionBackComponent implements OnInit {
 
   formUsuario: FormGroup
   usuario: Usuario
+  perfilSelected: number
 
   pagina: number = 0;
   _paginationButtons: any
@@ -69,6 +71,7 @@ export class PaginacionBackComponent implements OnInit {
       apellido: new FormControl(this.usuario.apellido),
       fechaNacimiento: new FormControl(this.usuario.fechaNacimiento)
     });
+    // this.formUsuario.reset()
 
 
 
@@ -124,9 +127,11 @@ export class PaginacionBackComponent implements OnInit {
   }
 
   actualizarUsuario() {
+    console.log("formUsuario", this.formUsuario)
+    let perfilSeleccionado = this.perfiles.find(perfil => perfil.idPerfil === this.formUsuario.value.perfil)
     this.usuario = new Usuario(
       this.formUsuario.value.email,
-      this.formUsuario.value.perfil,
+      perfilSeleccionado as Perfil,
       this.formUsuario.value.rut,
       this.formUsuario.value.nombre,
       this.formUsuario.value.apellido,
@@ -137,22 +142,27 @@ export class PaginacionBackComponent implements OnInit {
     )
     console.log("usuario", this.usuario)
     this.usuarioService.actualizarUsuario(this.usuario).subscribe((response: any) => {
-      console.log("response", response)
+      // console.log("response", response)
       if (response.status === 200) {
-
+        this.utilService.messageGod("Usuario modificado correctamente")
+      }else{
+        this.utilService.messageBad("Problemas con el servidor. Contacte con el area de soporte")
       }
     })
   }
 
   seleccionarUsuario(event) {
     console.log(event)
+    this.perfilSelected = event.perfil.idPerfil
     this.formUsuario = new FormGroup({
       rut: new FormControl(event.rut),
-      perfil: new FormControl(event.perfil, Validators.required),
+      perfil: new FormControl(null, Validators.required),
       email: new FormControl(event.email, [Validators.email, Validators.required]),
       nombre: new FormControl(event.nombre, Validators.required),
       apellido: new FormControl(event.apellido),
       fechaNacimiento: new FormControl(this.utilService.fechaFront(event.fechaNacimiento))
     });
+    console.log(this.formUsuario)
+    // this.formUsuario.controls.perfil
   }
 }

@@ -12,7 +12,7 @@ export class UtilService {
 
   show
 
-  openSnackBar() {    
+  openSnackBar() {
     let config = new MatSnackBarConfig();
     config.duration = 5000;
     config.panelClass = ['mat-danger'];
@@ -51,14 +51,12 @@ export class UtilService {
   }
 
   fechaBack(fecha): string {
-    
     return ""
   }
 
   fechaFront(fecha):string {
     let arrayFecha = fecha.split('-')
-    console.log('arrayFecha', arrayFecha)
     return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`
   }
-  
+
 }

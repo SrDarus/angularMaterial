@@ -15,12 +15,19 @@
                             <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
                         </mat-form-field>
 
-                        <mat-form-field appearance="outline" class="m-l-2 w-30">
+                        <!--mat-form-field appearance="outline" class="m-l-2 w-30">
                             <mat-label>Perfil</mat-label>
-                            <mat-select [formControlName]="'perfil'">
-                                <mat-option *ngFor="let perfil of perfiles" [value]="perfil">
+                            <mat-select [attr.data-name]="'perfil'" [formControlName]="'perfil'">
+                                <mat-option *ngFor="let perfil of perfiles" [value]="perfil.id">
                                     {{perfil.nombre}}
                                 </mat-option>
+                            </mat-select>
+                        </mat-form-field-->
+
+                        <mat-form-field appearance="outline" class="m-l-2 w-30">
+                            <mat-label>Perfil</mat-label>
+                            <mat-select [(value)]="perfilSelected" formControlName="perfil">
+                                <mat-option *ngFor="let perfil of perfiles" [value]="perfil.idPerfil">{{perfil.nombre}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
