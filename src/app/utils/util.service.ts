@@ -49,5 +49,16 @@ export class UtilService {
     // config.panelClass = ['mycsssnackbartest ']
     this._snackBar.open(message, null, config);
   }
+
+  fechaBack(fecha): string {
+    
+    return ""
+  }
+
+  fechaFront(fecha):string {
+    let arrayFecha = fecha.split('-')
+    console.log('arrayFecha', arrayFecha)
+    return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`
+  }
   
 }

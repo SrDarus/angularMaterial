@@ -2,50 +2,49 @@
     <table mat-table [dataSource]="dsUsuarios" multiTemplateDataRows class="mat-elevation-z8">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            <td mat-cell *matCellDef="let element" (click)="seleccionarUsuario(element)"> {{element[column]}} </td>
         </ng-container>
 
         <ng-container matColumnDef="expandedForm">
             <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                    <mat-card class="text-center">
-                        <form action="" [formGroup]="formUsuario">
-                            <mat-form-field appearance="outline" class=" w-30">
-                                <mat-label>rut</mat-label>
-                                <input matInput formControlName="rut">
-                                <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
-                            </mat-form-field>
+                <div class="element-detail text-center" [@formExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <form [formGroup]="formUsuario" class="m-t-1">
+                        <mat-form-field appearance="outline" class="w-30">
+                            <mat-label>rut</mat-label>
+                            <input matInput formControlName="rut">
+                            <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+                        </mat-form-field>
 
-                            <mat-form-field appearance="outline" class="m-l-1 w-30">
-                                <mat-label>Perfil</mat-label>
-                                <mat-select formControlName="perfil">
-                                    <mat-option *ngFor="let perfil of perfiles" [value]="perfil.idPerfil">
-                                        {{perfil.nombre}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                        <mat-form-field appearance="outline" class="m-l-2 w-30">
+                            <mat-label>Perfil</mat-label>
+                            <mat-select [formControlName]="'perfil'">
+                                <mat-option *ngFor="let perfil of perfiles" [value]="perfil">
+                                    {{perfil.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                            <mat-form-field appearance="outline" class="m-l-1 w-30">
-                                <mat-label>nombre</mat-label>
-                                <input matInput formControlName="nombre" required>
-                            </mat-form-field>
+                        <mat-form-field appearance="outline" class="m-l-2 w-30">
+                            <mat-label>nombre</mat-label>
+                            <input matInput formControlName="nombre" required>
+                        </mat-form-field>
 
-                            <mat-form-field appearance="outline" class="m-l-1 w-30">
-                                <mat-label>apellido</mat-label>
-                                <input matInput formControlName="apellido" required>
-                            </mat-form-field>
+                        <mat-form-field appearance="outline" class="w-30">
+                            <mat-label>apellido</mat-label>
+                            <input matInput formControlName="apellido" required>
+                        </mat-form-field>
 
-                            <mat-form-field appearance="outline" class="m-l-1 w-30">
-                                <mat-label>fechaNacimiento</mat-label>
-                                <input matInput formControlName="fechaNacimiento">
-                            </mat-form-field>
+                        <mat-form-field appearance="outline" class="m-l-2 w-30">
+                            <mat-label>Fecha Nacimiento</mat-label>
+                            <input matInput [matDatepicker]="fechaNacimiento" formControlName="fechaNacimiento">
+                            <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+                            <mat-datepicker #fechaNacimiento></mat-datepicker>
+                        </mat-form-field>
 
-                            <button mat-raised-button color="primary">
-                                Guardar
-                            </button>
-                        </form>
-
-                    </mat-card>
+                        <button mat-raised-button color="primary" class="w-30" style="margin-left: 2rem" (click)="actualizarUsuario()">
+                            Guardar
+                        </button>
+                    </form>
                 </div>
             </td>
         </ng-container>
