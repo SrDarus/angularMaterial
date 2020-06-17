@@ -1,8 +1,8 @@
-import { Perfil } from './perfil';
+import { Role } from './role';
 
 export class Usuario {
     email: string;
-    perfil:	Perfil;
+    role: Array<String>=[];
     rut:	string;
     nombre: string;
     apellido: string; 
@@ -10,11 +10,11 @@ export class Usuario {
     fechaCreacion: 	string;   
     foto: string;
     password: 	string;    
-
+    enabled: boolean;
 
     constructor(
         email: string,
-        perfil: Perfil,
+        roles: Array<String>,
         rut: string,
         nombre: string,
         apellido: string,
@@ -24,7 +24,7 @@ export class Usuario {
         password?: string
     ){
         this.email = email
-        this.perfil = perfil
+        this.role = roles
         this.rut = rut
         this.nombre = nombre
         this.apellido = apellido

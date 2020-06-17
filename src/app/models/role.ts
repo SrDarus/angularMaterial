@@ -1,12 +1,12 @@
-export class Perfil {
-    idPerfil: number;
+export class Role {
+    idRole: number;
     nombre:	string;
 
     constructor(
-        idPerfil: number,
+        idRole: number,
         nombre: string
     ){
-        this.idPerfil = idPerfil
+        this.idRole = idRole
         this.nombre = nombre
     }
 }

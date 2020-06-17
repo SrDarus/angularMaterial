@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Usuario } from 'src/app/models/usuario';
-import { Perfil } from 'src/app/models/perfil';
+import { Role } from 'src/app/models/role';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/utils/util.service';
 import { GlobalService } from 'src/app/global/global.service';
@@ -27,11 +27,11 @@ export class PaginacionBackComponent implements OnInit {
 
   formUsuario: FormGroup
   usuario: Usuario
-  perfilSelected: number
+  roleSelected: number
 
   pagina: number = 0;
   _paginationButtons: any
-  perfiles: Array<Perfil>;
+  roles: Array<Role>;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -56,24 +56,16 @@ export class PaginacionBackComponent implements OnInit {
       totalPages: 3,
     }
 
-    this.usuarioService.obtenerPerfiles().subscribe((response: any) => {
-      // console.log("response", response)
-      if (response.status === 200) {
-        this.perfiles = response.result
-      }
-
-    })
     this.formUsuario = new FormGroup({
       rut: new FormControl(this.usuario.rut),
-      perfil: new FormControl(this.usuario.perfil.idPerfil, Validators.required),
+      // role: new FormControl(this.usuario.role.idRole, Validators.required),
+      role: new FormControl(null, Validators.required),
       email: new FormControl(this.usuario.email, [Validators.email, Validators.required]),
       nombre: new FormControl(this.usuario.nombre, Validators.required),
       apellido: new FormControl(this.usuario.apellido),
       fechaNacimiento: new FormControl(this.usuario.fechaNacimiento)
     });
     // this.formUsuario.reset()
-
-
 
     this.usuarioService.obtenerUsuariosBack(this.pagina).subscribe((response: any) => {
       // console.log("*********************", response)
@@ -127,11 +119,12 @@ export class PaginacionBackComponent implements OnInit {
   }
 
   actualizarUsuario() {
-    console.log("formUsuario", this.formUsuario)
-    let perfilSeleccionado = this.perfiles.find(perfil => perfil.idPerfil === this.formUsuario.value.perfil)
+  /*
+    // console.log("formUsuario", this.formUsuario)
+    let roleSeleccionado = this.roles.find(role => role.idRole === this.formUsuario.value.role)
     this.usuario = new Usuario(
       this.formUsuario.value.email,
-      perfilSeleccionado as Perfil,
+      roleSeleccionado as Role,
       this.formUsuario.value.rut,
       this.formUsuario.value.nombre,
       this.formUsuario.value.apellido,
@@ -140,7 +133,7 @@ export class PaginacionBackComponent implements OnInit {
       "",
       this.formUsuario.value.password
     )
-    console.log("usuario", this.usuario)
+    // console.log("usuario", this.usuario)
     this.usuarioService.actualizarUsuario(this.usuario).subscribe((response: any) => {
       // console.log("response", response)
       if (response.status === 200) {
@@ -149,20 +142,21 @@ export class PaginacionBackComponent implements OnInit {
         this.utilService.messageBad("Problemas con el servidor. Contacte con el area de soporte")
       }
     })
+    */
   }
 
   seleccionarUsuario(event) {
-    console.log(event)
-    this.perfilSelected = event.perfil.idPerfil
+    // console.log(event)
+    this.roleSelected = event.role.idRole
     this.formUsuario = new FormGroup({
       rut: new FormControl(event.rut),
-      perfil: new FormControl(null, Validators.required),
+      role: new FormControl(null, Validators.required),
       email: new FormControl(event.email, [Validators.email, Validators.required]),
       nombre: new FormControl(event.nombre, Validators.required),
       apellido: new FormControl(event.apellido),
       fechaNacimiento: new FormControl(this.utilService.fechaFront(event.fechaNacimiento))
     });
-    console.log(this.formUsuario)
-    // this.formUsuario.controls.perfil
+    // console.log(this.formUsuario)
+    // this.formUsuario.controls.role
   }
 }

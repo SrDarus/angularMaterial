@@ -62,6 +62,7 @@ import { AppSettings } from './app.config';
 import { AdministrarProductosComponent } from './components/administrador/administrar-productos/administrar-productos.component';
 import { PaginacionFrontComponent } from './components/administrador/administrar-usuario/paginacion-front/paginacion-front.component';
 import { PaginacionBackComponent } from './components/administrador/administrar-usuario/paginacion-back/paginacion-back.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { PaginacionBackComponent } from './components/administrador/administrar-
   providers: [
     GlobalService,
     UsuarioService,
+    AuthService,
     MatDatepickerModule,
     AppSettings
   ],

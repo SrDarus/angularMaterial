@@ -1,19 +1,19 @@
 <mat-toolbar color="primary">
-  <a [routerLink]="['/home']">
-    <!-- <mat-icon style="font-size: 7rem; margin-top: 5px">dashboard</mat-icon> -->
-    <img src="../../../assets/img/darus-logo.png" class="w-5 w-8 m-t-1">
-  </a>
-  <div class="spacer"></div>
-  <a mat-button routerLink="/Home">Home</a>
-  <a mat-raised-button color="accent" (click)="login()" *ngIf="usuario === null">Login</a>
-  <button mat-icon-button color="accent" [matMenuTriggerFor]="menuUsuario"  *ngIf="usuario != null">
+    <a [routerLink]="['/home']">
+        <!-- <mat-icon style="font-size: 7rem; margin-top: 5px">dashboard</mat-icon> -->
+        <img src="../../../assets/img/darus-logo.png" class="w-5 w-8 m-t-1">
+    </a>
+    <div class="spacer"></div>
+    <a mat-button routerLink="/Home">Home</a>
+    <a mat-raised-button color="accent" (click)="login()" *ngIf="usuario === null">Login</a>
+    <button mat-icon-button color="accent" [matMenuTriggerFor]="menuUsuario" *ngIf="usuario != null">
     <mat-icon  *ngIf="usuario.foto == ''">person</mat-icon>
     <img class="w-5 bo-rad-circle" *ngIf="usuario.foto != ''" src="http://localhost:8080/api/usuario/img/{{usuario.foto}}" alt="">
   </button>
-  <mat-menu #menuUsuario="matMenu">
-    <button mat-menu-item [routerLink]="['main']">Tienda</button>
-    <button mat-menu-item [routerLink]="['usuario/perfil']">Editar Perfil</button>
-    <button mat-menu-item [routerLink]="['administrador']" *ngIf="usuario?.perfil.idPerfil === 1">Administrador</button>
-    <button mat-menu-item (click)="cerrarSesion()">Cerrar Sesion</button>
-  </mat-menu>
+    <mat-menu #menuUsuario="matMenu">
+        <button mat-menu-item [routerLink]="['main']">Tienda</button>
+        <button mat-menu-item [routerLink]="['usuario/perfil']">Editar Perfil</button>
+        <button mat-menu-item [routerLink]="['administrador']" *ngIf="usuario?.role.idRole === 1">Administrador</button>
+        <button mat-menu-item (click)="cerrarSesion()">Cerrar Sesion</button>
+    </mat-menu>
 </mat-toolbar>

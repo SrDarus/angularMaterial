@@ -8,6 +8,7 @@ import { Bug } from './bug';
 import { Result } from './result'
 import { Usuario } from '../models/usuario';
 import { AppSettings } from '../app.config';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,9 @@ export class UsuarioService {
   // Base url
   readonly baseurl = AppSettings.API_ENDPOINT_LOCAL;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient, 
+    private router: Router) { }
 
   // Http Headers
   httpOptions = {
@@ -27,14 +30,18 @@ export class UsuarioService {
     })
   }
 
-  // GET
-  inisiarSesion(email): Observable<Bug> {
-    return this.http.get<Bug>(this.baseurl + '/usuario/obtenerUsuario/' + email, this.httpOptions)
-      .pipe(
-        // retry(1),
-        catchError(this.handleError)
-      )
-  }
+
+  
+
+  // // POST
+  // inisiarSesion(email): Observable<Bug> {
+  //   console.log(this.baseurl + '/oauth/token/' + email)
+  //   return this.http.post<Bug>(this.baseurl + '/oauth/token/', {} ,this.httpOptions)
+  //     .pipe(
+  //       // retry(1),
+  //       catchError(this.handleError)
+  //     )
+  // }
 
   //GET
   obtenerUsuario(email): Observable<Bug> {
@@ -121,20 +128,15 @@ export class UsuarioService {
     return this.http.request<Result>(req)
   }
 
-  obtenerPerfiles(){
-    return this.http.get<Bug>(this.baseurl + '/usuario/obtenerPerfiles', this.httpOptions)
-    .pipe(
-      // retry(1),
-      catchError(this.handleError)
-    )
-  }
 
   handleError(error) {
     let errorMessage = { status: 500, message: null, result: null };
     if (error.error instanceof ErrorEvent) {
-
       errorMessage.result = error
       errorMessage.message = `Error: ${error.error.message}`;
+      if(error.status === 401 || error.status === 403){
+        this.router.navigate(["/home"])
+      }
     } else {
 
       errorMessage.result = error

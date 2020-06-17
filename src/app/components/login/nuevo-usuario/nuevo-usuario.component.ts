@@ -10,7 +10,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { UtilService } from 'src/app/utils/util.service';
 import { GlobalService } from 'src/app/global/global.service';
-import { Perfil } from 'src/app/models/perfil';
+import { Role } from 'src/app/models/role';
 
 @Component({
   selector: 'app-nuevo-usuario',

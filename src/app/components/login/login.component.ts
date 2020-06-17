@@ -6,6 +6,7 @@ import { UtilService } from 'src/app/utils/util.service';
 import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/global/global.service';
 import { Usuario } from 'src/app/models/usuario';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -22,12 +23,12 @@ export class LoginComponent {
 
   test(a) { console.log(a) }
   constructor(
-    public dialogRef: MatDialogRef<LoginComponent>,
+    public dialogRefLogin: MatDialogRef<LoginComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public utilService: UtilService,
     public globalService: GlobalService,
     private router: Router,
-    private usuarioService: UsuarioService) {
+    private authService:AuthService) {
     // console.log('data', data);
     this.formLogin = new FormGroup({
       email: new FormControl('', Validators.required),
@@ -36,6 +37,17 @@ export class LoginComponent {
   }
 
   iniciarSesion() {
+    console.log("formLogin", this.formLogin)
+    
+    this.authService.login(this.formLogin.value.email, this.formLogin.value.password).subscribe((response: any) => { 
+      console.log("response", response)
+      this.dialogRefLogin.close();
+      let payload = JSON.parse(atob(response.access_token.split('.')[1]))
+      console.log('payload', payload)
+      this.router.navigate(['/main'])
+      this.utilService.messageGod(`Bienvenido ${response.email}`)
+    })
+    /*
     this.usuarioService.inisiarSesion(this.formLogin.value.email).subscribe((response: any) => {
       console.log("resposne", response)
       if (response.status === 200) {
@@ -66,12 +78,10 @@ export class LoginComponent {
         this.utilService.messageBad("Problemas con el servidor contactese con el administrador");
       }
     });
-    
-
+    */
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRefLogin.close();
   }
-
 }

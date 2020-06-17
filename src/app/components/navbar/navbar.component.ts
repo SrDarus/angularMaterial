@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { UtilService } from 'src/app/utils/util.service';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { Perfil } from 'src/app/models/perfil';
+import { Role } from 'src/app/models/role';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +14,7 @@ import { Perfil } from 'src/app/models/perfil';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  usuario: Usuario
+  usuario: Usuario = null
   constructor(
     public dialog: MatDialog,
     private globalService: GlobalService,
@@ -25,18 +25,18 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let perfil = new Perfil(0, "")
-    this.usuario = new Usuario('', perfil, '', '', '', null, null, "")
-    this.globalService.itemValue.subscribe((nextValue: any) => {
-      // console.log("nextValue", nextValue)
-      this.usuario = JSON.parse(nextValue) as Usuario // this will happen on every change
-    })
-    if (this.globalService.sesion == 'null') {
-      this.router.navigate(['home'])
-    } else {
-      this.router.navigate(['main'])
-    }
-
+    // let perfil = new Role(0, "")
+    // this.usuario = new Usuario('', perfil, '', '', '', null, null, "")
+    // this.globalService.itemValue.subscribe((nextValue: any) => {
+    //   // console.log("nextValue", nextValue)
+    //   this.usuario = JSON.parse(nextValue) as Usuario // this will happen on every change
+    // })
+    // if (this.globalService.sesion == 'null') {
+    //   this.router.navigate(['home'])
+    // } else {
+    //   this.router.navigate(['main'])
+    // }
+    console.log("usuario" ,this.usuario)
   }
 
   login(): void {
@@ -52,3 +52,6 @@ export class NavbarComponent implements OnInit {
   }
 
 }
+
+
+
