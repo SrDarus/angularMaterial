@@ -7,6 +7,8 @@ import { PerfilComponent } from './components/login/perfil/perfil.component';
 import { AdministradorComponent } from './components/administrador/administrador.component';
 import { AdministrarUsuarioComponent } from './components/administrador/administrar-usuario/administrar-usuario.component';
 import { AdministrarProductosComponent } from './components/administrador/administrar-productos/administrar-productos.component';
+import { AuthGuard } from './services/guard/auth.guard';
+import { RoleGuard } from './services/guard/role.guard';
 
 
 const routes: Routes = [
@@ -20,7 +22,7 @@ const routes: Routes = [
         { path: '', redirectTo: 'administrarUsuario', pathMatch: 'full'},
       ] 
   },
-  { path: 'administrarUsuario', component: AdministrarUsuarioComponent },
+  { path: 'administrarUsuario', component: AdministrarUsuarioComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
   { path: 'usuario/nuevoUsuario', component: NuevoUsuarioComponent },
   { path: 'usuario/perfil', component: PerfilComponent },
   { path: '**', component: HomeComponent }];

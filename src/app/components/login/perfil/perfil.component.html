@@ -7,7 +7,7 @@
             <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
                 <mat-form-field appearance="outline">
                     <mat-label>Correo Electronico</mat-label>
-                    <input matInput placeholder="email@example.com" formControlName="email">
+                    <input matInput placeholder="email@example.com" formControlName="email" [disabled]="true">
                     <mat-error *ngIf="formEditarUsuario.controls.email.invalid">{{getErrorMessage('email')}}</mat-error>
                 </mat-form-field>
                 <mat-form-field fxFlex appearance="outline" fxFlex="1 1 50%">
@@ -38,25 +38,17 @@
                 </mat-form-field>
                 <button type="button" mat-raised-button class="h-4" (click)="fileInput.click()">Seleccione
                     imagen</button>
-                <button type="button" mat-raised-button class="h-4" (click)="subirFoto()"
-                    [disabled]="!this.foto">Subir</button>
+                <button type="button" mat-raised-button class="h-4" (click)="subirFoto()" [disabled]="!this.foto">Subir</button>
                 <input hidden (change)="seleccionarFoto($event.target.files)" #fileInput type="file" id="file">
             </div>
-            <div *ngIf="progresoValue > 0" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px"
-                fxLayoutAlign="center">
+            <div *ngIf="progresoValue > 0" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px" fxLayoutAlign="center">
                 <section class="w-full">
-                    <mat-progress-bar 
-                        class="h-2" 
-                        [color]="color" 
-                        [mode]="mode" 
-                        [value]="progresoValue"
-                        [bufferValue]="bufferValue">
+                    <mat-progress-bar class="h-2" [color]="color" [mode]="mode" [value]="progresoValue" [bufferValue]="bufferValue">
                     </mat-progress-bar>
                 </section>
 
             </div>
-            <div class="m-t-1" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px"
-                fxLayoutGap.xs="10px" fxLayoutAlign="end">
+            <div class="m-t-1" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="10px" fxLayoutAlign="end">
                 <button mat-raised-button color="primary" (click)="eliminarUsuario()">
                     Dar de Baja
                 </button>

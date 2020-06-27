@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService } from 'src/app/global/global.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/models/usuario';
@@ -8,6 +7,7 @@ import { Router } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
 import {ThemePalette} from '@angular/material/core';
 import {ProgressBarMode} from '@angular/material/progress-bar';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-perfil',
@@ -29,14 +29,14 @@ export class PerfilComponent implements OnInit {
   test(a) { console.log(a) }
 
   constructor(
-    private globalService: GlobalService,
+    private authService: AuthService,
     private usuarioService: UsuarioService,
     private utilService: UtilService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.usuario = JSON.parse(this.globalService.sesion)
+    this.usuario = this.authService.usuario
 
     this.formEditarUsuario = new FormGroup({
       rut: new FormControl(''),
@@ -72,7 +72,7 @@ export class PerfilComponent implements OnInit {
       this.formEditarUsuario.value.nombre,
       this.formEditarUsuario.value.apellido,
       this.formEditarUsuario.value.fechaNacimiento,
-      '',
+      null,
       this.formEditarUsuario.value.fechaCreacion
     )
     // console.log("Usuario", this.usuario)
@@ -80,7 +80,7 @@ export class PerfilComponent implements OnInit {
       console.log('response', response)
       if (response.status === 200) {
         this.usuario = response.result
-        this.globalService.sesion = JSON.stringify(this.usuario);
+        this.authService.historial.next(this.usuario);
         this.utilService.messageGod("Usuario Actualizado Correctamente")
       } else {
         this.utilService.messageBad("No se pudo actualizar")
@@ -89,12 +89,11 @@ export class PerfilComponent implements OnInit {
   }
 
   eliminarUsuario() {
-    console.log(this.usuario)
     this.usuarioService.eliminarUsuario(this.usuario.email).subscribe((response: any) => {
       // console.log(response)
       if (response.status === 200) {
         this.utilService.messageGod("Ha cancelado su cuenta")
-        this.globalService.sesion = 'null'
+        // this.globalService.sesion = 'null'
         // console.log("this.globalService", this.globalService)
         this.router.navigate(['/home'])
       } else {
@@ -155,9 +154,10 @@ export class PerfilComponent implements OnInit {
           if(event.type === HttpEventType.Response){
             let response = event.body
             if (response.status === 200) {
+              console.log("response", response)
               this.usuario = response.result
-              this.globalService.sesion = JSON.stringify(this.usuario);
-              this.usuario.foto = response.result.foto
+              this.authService.historial.next(this.usuario);
+              // this.usuario.foto = response.result.foto
               this.utilService.messageGod("Imagen subida correntamente")
               this.progresoValue = 0
             }

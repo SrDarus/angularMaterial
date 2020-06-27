@@ -13,7 +13,7 @@
     <mat-menu #menuUsuario="matMenu">
         <button mat-menu-item [routerLink]="['main']">Tienda</button>
         <button mat-menu-item [routerLink]="['usuario/perfil']">Editar Perfil</button>
-        <button mat-menu-item [routerLink]="['administrador']" *ngIf="usuario?.role.idRole === 1">Administrador</button>
+        <button mat-menu-item [routerLink]="['administrador']" *ngIf="hasRole('ROLE_ADMIN')">Administrador</button>
         <button mat-menu-item (click)="cerrarSesion()">Cerrar Sesion</button>
     </mat-menu>
 </mat-toolbar>

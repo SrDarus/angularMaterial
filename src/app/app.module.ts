@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -63,6 +63,8 @@ import { AdministrarProductosComponent } from './components/administrador/admini
 import { PaginacionFrontComponent } from './components/administrador/administrar-usuario/paginacion-front/paginacion-front.component';
 import { PaginacionBackComponent } from './components/administrador/administrar-usuario/paginacion-back/paginacion-back.component';
 import { AuthService } from './services/auth.service';
+import { TokenInterceptor } from './models/interceptors/token.interceptor';
+import { AuthInterceptor } from './models/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -127,7 +129,9 @@ import { AuthService } from './services/auth.service';
     UsuarioService,
     AuthService,
     MatDatepickerModule,
-    AppSettings
+    AppSettings,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

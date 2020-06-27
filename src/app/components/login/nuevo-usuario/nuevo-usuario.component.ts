@@ -9,8 +9,7 @@ import { Usuario } from 'src/app/models/usuario';
 //SERVICES
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { UtilService } from 'src/app/utils/util.service';
-import { GlobalService } from 'src/app/global/global.service';
-import { Role } from 'src/app/models/role';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -30,7 +29,7 @@ export class NuevoUsuarioComponent implements OnInit {
     private usuarioService: UsuarioService,
     private utilsService: UtilService,
     private router: Router,
-    private globalService: GlobalService
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -63,22 +62,22 @@ export class NuevoUsuarioComponent implements OnInit {
     if(this.usuario.fechaNacimiento) { 
       this.usuario.fechaNacimiento = formatDate(this.usuario.fechaNacimiento, 'yyyy-MM-dd', 'en-US')
     }
-    this.usuarioService.registrarUsuario(this.usuario).subscribe((response: any) => {
-      // console.log('response', response)
-      if (response.status === 200) {
-        this.usuario = response.result
-        this.globalService.sesion = JSON.stringify(this.usuario);
-        this.utilsService.messageGod("Usuario Registrado")
-        this.router.navigate(['/main'])
-      }else{
-        if(response.status === 409){
-          this.utilsService.messageBad("El email ingresado ya existe")
-        }
-        else {
-          this.utilsService.messageBad("No se pudo registrar este Usuario")
-        }
-      }
-    })
+    // this.usuarioService.registrarUsuario(this.usuario).subscribe((response: any) => {
+    //   // console.log('response', response)
+    //   if (response.status === 200) {
+    //     this.usuario = response.result
+    //     this.authService.historial = JSON.stringify(this.usuario);
+    //     this.utilsService.messageGod("Usuario Registrado")
+    //     this.router.navigate(['/main'])
+    //   }else{
+    //     if(response.status === 409){
+    //       this.utilsService.messageBad("El email ingresado ya existe")
+    //     }
+    //     else {
+    //       this.utilsService.messageBad("No se pudo registrar este Usuario")
+    //     }
+    //   }
+    // })
   }
 
   getErrorMessage(value) {

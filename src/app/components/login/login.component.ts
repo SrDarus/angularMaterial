@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/global/global.service';
 import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/auth.service';
+import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -36,17 +38,21 @@ export class LoginComponent {
     });
   }
 
-  iniciarSesion() {
-    console.log("formLogin", this.formLogin)
-    
-    this.authService.login(this.formLogin.value.email, this.formLogin.value.password).subscribe((response: any) => { 
+  iniciarSesion() { 
+    // console.log("formLogin", this.formLogin)
+    this.authService.login(this.formLogin.value.email, this.formLogin.value.password).subscribe((response: any) => {
       console.log("response", response)
-      this.dialogRefLogin.close();
-      let payload = JSON.parse(atob(response.access_token.split('.')[1]))
-      console.log('payload', payload)
-      this.router.navigate(['/main'])
+      this.authService.guardarUsuario(response.access_token)
+      this.authService.guardarToken(response.access_token)
       this.utilService.messageGod(`Bienvenido ${response.email}`)
+      this.router.navigate(['/main'])
+      this.dialogRefLogin.close();
+    }, (error:HttpErrorResponse) => {
+        if (error.status === 400) {
+          this.utilService.messageBad("Usuario o Password incorrecto")
+        }
     })
+
     /*
     this.usuarioService.inisiarSesion(this.formLogin.value.email).subscribe((response: any) => {
       console.log("resposne", response)
@@ -81,7 +87,15 @@ export class LoginComponent {
     */
   }
 
+  enterIniciarSesion(event) {
+    // event.preventDefault()
+    // this.iniciarSesion()
+    console.log(this.formLogin)
+  }
+
   onNoClick(): void {
     this.dialogRefLogin.close();
   }
+
+
 }

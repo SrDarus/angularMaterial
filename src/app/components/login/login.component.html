@@ -1,35 +1,34 @@
 <mat-card>
 
-  <div class="text-center">
-    <h1>Iniciar session</h1>
-  </div>
-  <div >
-    <form [formGroup]="formLogin" (ngSubmit)="iniciarSesion()">
-      <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
-        <mat-form-field fxFlex appearance="outline">
-          <mat-label>Correo Electronico</mat-label>
-          <input matInput formControlName="email" cdkFocusInitial>
-        </mat-form-field>
-        <mat-form-field fxFlex appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="off" (keydown.enter)="$event.preventDefault()">
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidePassword">
+    <div class="text-center">
+        <h1>Iniciar session</h1>
+    </div>
+    <div>
+        <form [formGroup]="formLogin" (ngSubmit)="iniciarSesion()">
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input matInput formControlName="email" cdkFocusInitial>
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="off" (keydown.enter)="$event.preventDefault()">
+                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error *ngIf="formLogin.controls.email.invalid">Password incorrecto
-          </mat-error>
-        </mat-form-field>
+                    <mat-error *ngIf="formLogin.controls.email.invalid">Password incorrecto
+                    </mat-error>
+                </mat-form-field>
 
-      </div>
-      <!-- <mat-form-field>
+            </div>
+            <!-- <mat-form-field>
             <mat-checkbox >Check me!</mat-checkbox>
           </mat-form-field> -->
-      <div  fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
-        <a mat-button [routerLink]="['/usuario/nuevoUsuario']" [mat-dialog-close]>Crear nuevo usuario</a>
-        <button mat-button class="m-l-auto" [disabled]="!formLogin.valid">Iniciar sesión</button>
-      </div>
-    </form>
-  </div>
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+                <a mat-button [routerLink]="['/usuario/nuevoUsuario']" [mat-dialog-close]>Crear nuevo usuario</a>
+                <button mat-button class="m-l-auto" [disabled]="!formLogin.valid">Iniciar sesión</button>
+            </div>
+        </form>
+    </div>
 
 </mat-card>

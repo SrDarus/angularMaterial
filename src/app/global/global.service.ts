@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class  GlobalService {
-  itemValue = new BehaviorSubject(this.sesion);
+export class GlobalService {
+  
+  _value:any
 
-  set sesion(value) {
-    this.itemValue.next(value); // this will make sure to tell every subscriber about the change.
-    localStorage.setItem('sesion', value);
-    // sessionStorage.setItem('sesion', value);
+  set value(value) {
+    this._value = value
   }
 
-  get sesion() {
-    return localStorage.getItem('sesion');
-    // return sessionStorage.getItem('sesion');
+  get value() {
+    return this._value
   }
 }

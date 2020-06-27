@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Usuario } from 'src/app/models/usuario';
-import { Role } from 'src/app/models/role';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/utils/util.service';
 import { GlobalService } from 'src/app/global/global.service';
@@ -31,7 +30,6 @@ export class PaginacionBackComponent implements OnInit {
 
   pagina: number = 0;
   _paginationButtons: any
-  roles: Array<Role>;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -41,7 +39,7 @@ export class PaginacionBackComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.usuario = JSON.parse(this.globalService.sesion)
+    // this.usuario = JSON.parse(this.globalService.sesion)
     // console.log(this.usuario)
     this._paginationButtons = {
       empty: false,

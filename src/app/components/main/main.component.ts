@@ -11,14 +11,7 @@ export class MainComponent implements OnInit {
   btnMenu: boolean
 
   readonly sidenavConfig = AppSettings.SIDENAV_CONFIG
-  // sidenavConfig: object = {
-  //   mode: {
-  //     side: "side",
-  //     over: "over",
-  //     push: "push"
-  //   }
-  // }
-
+  
   constructor() { }
 
   ngOnInit(): void {

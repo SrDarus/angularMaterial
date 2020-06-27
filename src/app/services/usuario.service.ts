@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { Result } from './result'
 import { Usuario } from '../models/usuario';
 import { AppSettings } from '../app.config';
 import { Router } from '@angular/router';
+import { UtilService } from '../utils/util.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,32 +21,15 @@ export class UsuarioService {
   readonly baseurl = AppSettings.API_ENDPOINT_LOCAL;
 
   constructor(
-    private http: HttpClient, 
-    private router: Router) { }
+    private http: HttpClient,
+    private router: Router,
+    private utilServices: UtilService
+    ) { }
 
-  // Http Headers
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  }
-
-
-  
-
-  // // POST
-  // inisiarSesion(email): Observable<Bug> {
-  //   console.log(this.baseurl + '/oauth/token/' + email)
-  //   return this.http.post<Bug>(this.baseurl + '/oauth/token/', {} ,this.httpOptions)
-  //     .pipe(
-  //       // retry(1),
-  //       catchError(this.handleError)
-  //     )
-  // }
 
   //GET
-  obtenerUsuario(email): Observable<Bug> {
-    return this.http.get<Bug>(this.baseurl + '/usuario/obtenerUsuario/' + email, this.httpOptions)
+  obtenerUsuario(email): Observable<any> {
+    return this.http.get(this.baseurl + 'api/usuario/obtenerUsuario/' + email)
       .pipe(
         // retry(1),
         catchError(this.handleError)
@@ -54,12 +38,10 @@ export class UsuarioService {
 
   // GET
   obtenerUsuarios(): Observable<Result> {
-    return this.http.post<Result>(this.baseurl + '/usuario/obtenerUsuarios', [], this.httpOptions)
+    return this.http.post<Result>(this.baseurl + 'api/usuario/obtenerUsuarios', [])
       .pipe(
         // retry(1),
         map((response: any) => {
-//          console.log('response', response)
-          // let _response = response
           response.result.map(usuario => {
             usuario.fechaNacimiento = formatDate(usuario.fechaNacimiento, "dd-MM-yyyy", "en-US")
             usuario.fechaCreacion = formatDate(usuario.fechaCreacion, "dd-MM-yyyy", "en-US")
@@ -73,7 +55,7 @@ export class UsuarioService {
 
   // GET
   obtenerUsuariosBack(page): Observable<Result> {
-    return this.http.post<Result>(this.baseurl + '/usuario/obtenerUsuarios/page/' + page, [], this.httpOptions)
+    return this.http.post<Result>(this.baseurl + 'api/usuario/obtenerUsuarios/page/' + page, [])
       .pipe(
         // retry(1),
         map((response: any) => {
@@ -92,7 +74,7 @@ export class UsuarioService {
 
   // POST
   registrarUsuario(usuario: Usuario): Observable<Bug> {
-    return this.http.post<Bug>(this.baseurl + '/usuario/registrarUsuario/', JSON.stringify(usuario), this.httpOptions)
+    return this.http.post<Bug>(this.baseurl + 'api/usuario/registrarUsuario/', JSON.stringify(usuario))
       .pipe(
         retry(1),
         catchError(this.handleError)
@@ -101,16 +83,13 @@ export class UsuarioService {
 
   // PUT
   actualizarUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>(this.baseurl + '/usuario/actualizarUsuario/' + usuario.email, JSON.stringify(usuario), this.httpOptions)
-      .pipe(
-        // retry(1),
-        catchError(this.handleError)
-      )
+    console.log("usuario", usuario)
+    return this.http.put<Usuario>(this.baseurl + 'api/usuario/actualizarUsuario/' + usuario.email, JSON.stringify(usuario))
   }
 
-  // DELLETE
   eliminarUsuario(email: string): Observable<Usuario> {
-    return this.http.delete<Usuario>(this.baseurl + '/usuario/eliminarUsuario/' + email, this.httpOptions)
+  // DELLETE
+    return this.http.delete<Usuario>(this.baseurl + 'api/usuario/eliminarUsuario/' + email)
       .pipe(
         // retry(1),
         catchError(this.handleError)
@@ -118,23 +97,40 @@ export class UsuarioService {
   }
 
   subirFotoUsuario(archivo: File, id: string): Observable<HttpEvent<{}>> {
+    
     let formData = new FormData();
     formData.append("imagen", archivo)
     formData.append("email", id)
-    //console.log("FormData", formData)
-    const req = new HttpRequest('POST', this.baseurl + '/usuario/subirFoto/', formData, {
+    
+    const req = new HttpRequest('POST', this.baseurl + 'api/usuario/img/subirFoto', formData, {
       reportProgress: true
     });
-    return this.http.request<Result>(req)
+    return this.http.request(req).pipe(
+      catchError(e => {
+        return throwError(e);
+      })
+    );
   }
 
 
   handleError(error) {
-    let errorMessage = { status: 500, message: null, result: null };
+    console.log("error: ", error)
+    let errorMessage = { status: error.status, message: null, result: null };
+    if (error.status === 0) {
+      alert("Problemas con el servidor contacte con el administrador")
+      this.utilServices.messageBad("Problemas con el servidor contacte con el administrador")
+      return
+    }
+    if (error.status === 401) {
+      alert("Debe iniciar session")
+      this.utilServices.messageWarning("Debe iniciar sesion")
+
+    }
     if (error.error instanceof ErrorEvent) {
-      errorMessage.result = error
+      errorMessage.result = error 
       errorMessage.message = `Error: ${error.error.message}`;
-      if(error.status === 401 || error.status === 403){
+      if (error.status === 401 || error.status === 403) {
+        console.log("*******************************")
         this.router.navigate(["/home"])
       }
     } else {
