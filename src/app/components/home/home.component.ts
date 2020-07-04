@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   test(a) { console.log(a) }
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {  }
 

@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
-    private authServices: AuthService
+    public authServices: AuthService
   ){}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

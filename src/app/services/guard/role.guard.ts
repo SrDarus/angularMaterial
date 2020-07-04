@@ -10,9 +10,9 @@ import { UtilService } from 'src/app/utils/util.service';
 export class RoleGuard implements CanActivate {
 
   constructor(
-    private authServices: AuthService,
+    public authServices: AuthService,
     private router: Router,
-    private utilService: UtilService
+    public utilService: UtilService
   ) { }
 
   canActivate(

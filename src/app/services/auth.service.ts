@@ -13,6 +13,7 @@ import { UtilService } from '../utils/util.service';
 })
 export class AuthService {
   
+  // readonly baseurl = AppSettings.API_ENDPOINT_REMOTE;
   readonly baseurl = AppSettings.API_ENDPOINT_LOCAL;
 
   private _usuario: Usuario
@@ -21,27 +22,34 @@ export class AuthService {
   historial = new BehaviorSubject(this.usuario);
 
   constructor( 
-    private http: HttpClient,
+    public http: HttpClient,
     private router: Router,
-    private utilServices: UtilService) { }
+    public utilServices: UtilService) { }
   
   
 
 
   login(email:string, password:string):Observable<any>{
     const credenciales = btoa('angularapp' + ':' + '12345')
-    const httpOptions = {
-      headers : new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic '+credenciales
-       })
-    }    
+    // const httpOptions = {
+    //   headers : new HttpHeaders({
+    //     'Content-Type': 'application/x-www-form-urlencoded',
+    //     'Authorization': 'Basic '+credenciales
+    //    })
+    // }  
+    console.log("credenciales", credenciales)
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic ' + credenciales
+    });
+
     let params = new URLSearchParams()
     params.set('username', email)
     params.set('password', password)
     params.set('grant_type', 'password')
     
-    return this.http.post<Bug>(this.baseurl + "oauth/token", params.toString(), httpOptions)
+    // return this.http.post<Bug>(this.baseurl + "oauth/token", params.toString(), httpOptions)
+    return this.http.post<Bug>(this.baseurl + "oauth/token", params.toString(), { headers: httpHeaders })
     .pipe(
       // retry(1),
       catchError(this.handleError)
@@ -113,8 +121,8 @@ export class AuthService {
   }
 
   hasRole(role: string): boolean {
-    console.log("role", role)
-    console.log("usuario", this.usuario)
+    // console.log("role", role)
+    // console.log("usuario", this.usuario)
     if (this.usuario === null) return false
     if (this.usuario.role.includes(role)) {
       // alert(1) 

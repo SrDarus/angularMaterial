@@ -29,9 +29,9 @@ export class PerfilComponent implements OnInit {
   test(a) { console.log(a) }
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private usuarioService: UsuarioService,
-    private utilService: UtilService,
+    public utilService: UtilService,
     private router: Router
   ) { }
 

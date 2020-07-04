@@ -15,11 +15,12 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NavbarComponent implements OnInit {
   usuario: Usuario = null
   constructor(
-    public dialog: MatDialog,
-    private authService: AuthService,
     private router: Router,
-    private utilService: UtilService,
-    private usuarioService: UsuarioService) {
+    private usuarioService: UsuarioService,
+    public dialog: MatDialog,
+    public authService: AuthService,
+    public utilService: UtilService
+  ) {
     // globalService.theItem
   }
 

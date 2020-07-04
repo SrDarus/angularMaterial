@@ -11,20 +11,18 @@ import { UtilService } from 'src/app/utils/util.service';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private authService: AuthService,
     private router: Router,
-    private utilService: UtilService
+    public authService: AuthService,
+    public utilService: UtilService
   ){}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // throw new Error("Method not implemented.");
-    
     return next.handle(req).pipe(
       catchError(e => {
         console.log("eee", e)
         if (e.status == 401) {
           if (!this.authService.isAuthenticated()) {
-            alert(401)
             this.authService.cerrarSesion();
             this.router.navigate(['/main']);
           }

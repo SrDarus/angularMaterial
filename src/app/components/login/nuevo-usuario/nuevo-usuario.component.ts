@@ -26,10 +26,10 @@ export class NuevoUsuarioComponent implements OnInit {
 
   test(a?){console.log(a)}
   constructor(
-    private usuarioService: UsuarioService,
     private utilsService: UtilService,
     private router: Router,
-    private authService: AuthService
+    public authService: AuthService,
+    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit(): void {
@@ -62,22 +62,22 @@ export class NuevoUsuarioComponent implements OnInit {
     if(this.usuario.fechaNacimiento) { 
       this.usuario.fechaNacimiento = formatDate(this.usuario.fechaNacimiento, 'yyyy-MM-dd', 'en-US')
     }
-    // this.usuarioService.registrarUsuario(this.usuario).subscribe((response: any) => {
-    //   // console.log('response', response)
-    //   if (response.status === 200) {
-    //     this.usuario = response.result
-    //     this.authService.historial = JSON.stringify(this.usuario);
-    //     this.utilsService.messageGod("Usuario Registrado")
-    //     this.router.navigate(['/main'])
-    //   }else{
-    //     if(response.status === 409){
-    //       this.utilsService.messageBad("El email ingresado ya existe")
-    //     }
-    //     else {
-    //       this.utilsService.messageBad("No se pudo registrar este Usuario")
-    //     }
-    //   }
-    // })
+    this.usuarioService.registrarUsuario(this.usuario).subscribe((response: any) => {
+      // console.log('response', response)
+      if (response.status === 200) {
+        this.usuario = response.result
+        // this.authService.historial = JSON.stringify(this.usuario);
+        this.utilsService.messageGod("Usuario Registrado")
+        this.router.navigate(['/main'])
+      }else{
+        if(response.status === 409){
+          this.utilsService.messageBad("El email ingresado ya existe")
+        }
+        else {
+          this.utilsService.messageBad("No se pudo registrar este Usuario")
+        }
+      }
+    })
   }
 
   getErrorMessage(value) {

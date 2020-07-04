@@ -15,15 +15,13 @@ import { UtilService } from '../utils/util.service';
   providedIn: 'root'
 })
 export class UsuarioService {
-
-
   // Base url
   readonly baseurl = AppSettings.API_ENDPOINT_LOCAL;
 
   constructor(
-    private http: HttpClient,
+    public http: HttpClient,
     private router: Router,
-    private utilServices: UtilService
+    public utilServices: UtilService
     ) { }
 
 
@@ -84,6 +82,10 @@ export class UsuarioService {
   // PUT
   actualizarUsuario(usuario: Usuario): Observable<Usuario> {
     console.log("usuario", usuario)
+    usuario.foto = "a.jpg"
+    usuario.password = ""
+    usuario.role = []
+    
     return this.http.put<Usuario>(this.baseurl + 'api/usuario/actualizarUsuario/' + usuario.email, JSON.stringify(usuario))
   }
 
