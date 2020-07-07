@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,7 +16,8 @@ import { UtilService } from '../utils/util.service';
 })
 export class UsuarioService {
   // Base url
-  readonly baseurl = AppSettings.API_ENDPOINT_LOCAL;
+  // readonly baseurl = AppSettings.API_ENDPOINT_LOCAL
+  readonly baseurl = AppSettings.API_ENDPOINT_REMOTE;
 
   constructor(
     public http: HttpClient,
@@ -72,7 +73,13 @@ export class UsuarioService {
 
   // POST
   registrarUsuario(usuario: Usuario): Observable<Bug> {
-    return this.http.post<Bug>(this.baseurl + 'api/usuario/registrarUsuario/', JSON.stringify(usuario))
+    const credenciales = btoa('angularapp' + ':' + '12345')
+    // console.log("credenciales", credenciales)
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + credenciales
+    });
+    return this.http.post<Bug>(this.baseurl + 'api/usuario/registrarUsuario', JSON.stringify(usuario), { headers: httpHeaders })
       .pipe(
         retry(1),
         catchError(this.handleError)

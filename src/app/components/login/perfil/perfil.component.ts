@@ -67,13 +67,14 @@ export class PerfilComponent implements OnInit {
     // console.log('Usuario', this.usuario)
     this.usuario = new Usuario(
       this.formEditarUsuario.value.email,
-      this.formEditarUsuario.value.perfil,
+      null,
       this.formEditarUsuario.value.rut,
       this.formEditarUsuario.value.nombre,
       this.formEditarUsuario.value.apellido,
       this.formEditarUsuario.value.fechaNacimiento,
+      this.formEditarUsuario.value.foto,
       null,
-      this.formEditarUsuario.value.fechaCreacion
+      null
     )
     // console.log("Usuario", this.usuario)
     this.usuarioService.actualizarUsuario(this.usuario).subscribe((response: any) => {

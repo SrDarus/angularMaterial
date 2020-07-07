@@ -13,7 +13,6 @@ import { UtilService } from '../utils/util.service';
 })
 export class AuthService {
   
-  // readonly baseurl = AppSettings.API_ENDPOINT_REMOTE;
   readonly baseurl = AppSettings.API_ENDPOINT_LOCAL;
 
   private _usuario: Usuario
@@ -31,13 +30,7 @@ export class AuthService {
 
   login(email:string, password:string):Observable<any>{
     const credenciales = btoa('angularapp' + ':' + '12345')
-    // const httpOptions = {
-    //   headers : new HttpHeaders({
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //     'Authorization': 'Basic '+credenciales
-    //    })
-    // }  
-    console.log("credenciales", credenciales)
+    // console.log("credenciales", credenciales)
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic ' + credenciales
@@ -47,9 +40,7 @@ export class AuthService {
     params.set('username', email)
     params.set('password', password)
     params.set('grant_type', 'password')
-    
-    // return this.http.post<Bug>(this.baseurl + "oauth/token", params.toString(), httpOptions)
-    return this.http.post<Bug>(this.baseurl + "oauth/token", params.toString(), { headers: httpHeaders })
+    return this.http.post<any>(this.baseurl + "oauth/token", params.toString(), { headers: httpHeaders })
     .pipe(
       // retry(1),
       catchError(this.handleError)
@@ -67,7 +58,8 @@ export class AuthService {
       payload.apellido,
       payload.fechaNacimiento,
       null,//fechaCreacion
-      payload.foto
+      payload.foto,
+      null
     );
     this.historial.next(this._usuario); // this will make sure to tell every subscriber about the change.
     //this.sesion = JSON.stringify(this._usuario)
@@ -137,6 +129,8 @@ export class AuthService {
     sessionStorage.removeItem('usuario');
     sessionStorage.removeItem('token');
     this.historial.next(null); // this will make sure to tell every subscriber about the change.
+    return this.http.get(this.baseurl + "api/oauth/revoke-token")
+    
   }
 
   handleError(error) {

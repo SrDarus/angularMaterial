@@ -8,8 +8,8 @@ export class Usuario {
     fechaNacimiento: string;
     fechaCreacion: 	string;   
     foto: string;
-    password: 	string;    
     enabled: boolean;
+    password: 	string;    
 
     constructor(
         email: string,
@@ -20,7 +20,8 @@ export class Usuario {
         fechaNacimiento: string,
         fechaCreacion: string,
         foto: string,
-        password?: string
+        enabled: boolean,
+        password?: string,
     ){
         this.email = email
         this.role = roles
@@ -30,6 +31,7 @@ export class Usuario {
         this.fechaNacimiento = fechaNacimiento
         this.fechaCreacion = fechaCreacion
         this.foto = foto
+        this.enabled = enabled
         this.password = password
     }
 }

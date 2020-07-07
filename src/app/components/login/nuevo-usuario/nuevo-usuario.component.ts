@@ -47,16 +47,18 @@ export class NuevoUsuarioComponent implements OnInit {
 
   registrarUsuario(): void {
     // let perfil = new Perfil(2, " ");
+    alert(1)
     this.usuario = new Usuario(
       this.formNuevoUsuario.value.email,
-      this.formNuevoUsuario.value.perfil,
+      [],
       this.formNuevoUsuario.value.rut,
       this.formNuevoUsuario.value.nombre,
       this.formNuevoUsuario.value.apellido,
       this.formNuevoUsuario.value.fechaNacimiento,
-      this.formNuevoUsuario.value.fechaCreacion,
       "",
-      this.formNuevoUsuario.value.password
+      null,
+      true,
+      this.formNuevoUsuario.value.password,
     )
     // console.log("Usuario", this.usuario)
     if(this.usuario.fechaNacimiento) { 

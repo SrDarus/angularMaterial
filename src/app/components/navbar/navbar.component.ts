@@ -6,6 +6,7 @@ import { UtilService } from 'src/app/utils/util.service';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { AppSettings } from 'src/app/app.config';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  url:string = AppSettings.API_ENDPOINT_LOCAL
   usuario: Usuario = null
   constructor(
     private router: Router,
@@ -21,36 +23,33 @@ export class NavbarComponent implements OnInit {
     public authService: AuthService,
     public utilService: UtilService
   ) {
-    // globalService.theItem
   }
 
   ngOnInit(): void {
     this.authService.historial.subscribe((nextValue: any) => {
-      console.log("nextValue", nextValue)
       if (nextValue === null) {
+        // this.usuario = new Usuario("", [], "", "", "", "", "", "", false)
         this.usuario = null
       } else {
         this.usuario = nextValue
+        console.log("historial", this.usuario) 
       }
     })
-
     if (!this.authService.isAuthenticated()) {
+      // this.usuario = new Usuario("", [], "", "", "", "", "", "", false)
+      this.usuario = null
       this.router.navigate(['/home']) 
     } else {
       this.usuarioService.obtenerUsuario(this.usuario.email).subscribe(response => {
-        // console.log("response", response)
         if (response.status === 200) {
+          console.log("resposne.result", response.result)
           this.authService.historial.next(response.result)
+          this.usuario = response.result
         }
       })
-      // console.log("Usuario", this.usuario)
       this.router.navigate(['/main'])
     }
-
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['main'])
-    }
-
+    console.log("usuario", this.usuario)
   }
 
   login(): void {
