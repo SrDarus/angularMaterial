@@ -7,6 +7,10 @@ import { AppSettings } from '../../app.config'
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+
+  readonly url = AppSettings.API_ENDPOINT_LOCAL;
+
+
   showFiller = false
   btnMenu: boolean
 

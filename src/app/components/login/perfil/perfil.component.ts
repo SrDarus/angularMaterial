@@ -3,7 +3,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/models/usuario';
 import { UtilService } from 'src/app/utils/util.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
 import {ThemePalette} from '@angular/material/core';
 import {ProgressBarMode} from '@angular/material/progress-bar';
@@ -28,11 +28,14 @@ export class PerfilComponent implements OnInit {
   bufferValue = 100;
   test(a) { console.log(a) }
 
+  sub
+
   constructor(
     public authService: AuthService,
     private usuarioService: UsuarioService,
     public utilService: UtilService,
-    private router: Router
+    private router: Router,
+    private activedRouter:  ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -60,11 +63,16 @@ export class PerfilComponent implements OnInit {
         this.router.navigate(['/main'])
       }
     })
-  }
+    this.sub = this.activedRouter
+    .data
+    .subscribe(v => console.log("v",v));
+}
 
+ngOnDestroy() {
+  this.sub.unsubscribe();
+}
   actualizarUsuario(): void {
-    // console.log('nuevo usuario', this.formEditarUsuario)
-    // console.log('Usuario', this.usuario)
+    console.log('nuevo usuario', this.formEditarUsuario)
     this.usuario = new Usuario(
       this.formEditarUsuario.value.email,
       null,
@@ -76,7 +84,7 @@ export class PerfilComponent implements OnInit {
       null,
       null
     )
-    // console.log("Usuario", this.usuario)
+    console.log("Usuario", this.usuario)
     this.usuarioService.actualizarUsuario(this.usuario).subscribe((response: any) => {
       console.log('response', response)
       if (response.status === 200) {

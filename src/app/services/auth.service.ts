@@ -40,6 +40,7 @@ export class AuthService {
     params.set('username', email)
     params.set('password', password)
     params.set('grant_type', 'password')
+    // console.log("httpHeaders", httpHeaders)
     return this.http.post<any>(this.baseurl + "oauth/token", params.toString(), { headers: httpHeaders })
     .pipe(
       // retry(1),
@@ -49,7 +50,7 @@ export class AuthService {
 
   guardarUsuario(accessToken) { 
     let payload = this.obtenerDatosToken(accessToken);
-    console.log("payload", payload)
+    // console.log("payload", payload)
     this._usuario = new Usuario(
       payload.user_name,  
       payload.authorities,
@@ -125,11 +126,11 @@ export class AuthService {
   } 
 
   cerrarSesion() { 
-    sessionStorage.removeItem('sesion');
     sessionStorage.removeItem('usuario');
     sessionStorage.removeItem('token');
+    this._token = null
+    this._usuario = null
     this.historial.next(null); // this will make sure to tell every subscriber about the change.
-    return this.http.get(this.baseurl + "api/oauth/revoke-token")
     
   }
 

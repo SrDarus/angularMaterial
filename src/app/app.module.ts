@@ -80,7 +80,7 @@ import { AuthInterceptor } from './models/interceptors/auth.interceptor';
     AdministrarUsuarioComponent,
     AdministrarProductosComponent,
     PaginacionFrontComponent,
-    PaginacionBackComponent
+    PaginacionBackComponent,
   ],  
   imports: [
     BrowserModule,

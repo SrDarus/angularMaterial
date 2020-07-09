@@ -13,7 +13,7 @@ import { RoleGuard } from './services/guard/role.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, data: {data: {}} },
   { path: 'main', component: MainComponent },
   { path: 'administrador', component: AdministradorComponent,
       children: [

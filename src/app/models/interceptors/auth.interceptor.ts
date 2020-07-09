@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // throw new Error("Method not implemented.");
     return next.handle(req).pipe(
       catchError(e => {
-        console.log("eee", e)
+        // console.log("eee", e)
         if (e.status == 401) {
           if (!this.authService.isAuthenticated()) {
             this.authService.cerrarSesion();

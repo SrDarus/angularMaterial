@@ -10,25 +10,25 @@ import { Usuario } from '../models/usuario';
 import { AppSettings } from '../app.config';
 import { Router } from '@angular/router';
 import { UtilService } from '../utils/util.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  // Base url
-  // readonly baseurl = AppSettings.API_ENDPOINT_LOCAL
-  readonly baseurl = AppSettings.API_ENDPOINT_REMOTE;
+  readonly url = AppSettings.API_ENDPOINT_LOCAL;
 
   constructor(
     public http: HttpClient,
     private router: Router,
-    public utilServices: UtilService
+    public utilServices: UtilService,
+    private authService: AuthService
     ) { }
 
 
   //GET
   obtenerUsuario(email): Observable<any> {
-    return this.http.get(this.baseurl + 'api/usuario/obtenerUsuario/' + email)
+    return this.http.get(this.url + 'api/usuario/obtenerUsuario/' + email)
       .pipe(
         // retry(1),
         catchError(this.handleError)
@@ -37,7 +37,7 @@ export class UsuarioService {
 
   // GET
   obtenerUsuarios(): Observable<Result> {
-    return this.http.post<Result>(this.baseurl + 'api/usuario/obtenerUsuarios', [])
+    return this.http.post<Result>(this.url + 'api/usuario/obtenerUsuarios', [])
       .pipe(
         // retry(1),
         map((response: any) => {
@@ -54,7 +54,7 @@ export class UsuarioService {
 
   // GET
   obtenerUsuariosBack(page): Observable<Result> {
-    return this.http.post<Result>(this.baseurl + 'api/usuario/obtenerUsuarios/page/' + page, [])
+    return this.http.post<Result>(this.url + 'api/usuario/obtenerUsuarios/page/' + page, [])
       .pipe(
         // retry(1),
         map((response: any) => {
@@ -79,7 +79,7 @@ export class UsuarioService {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + credenciales
     });
-    return this.http.post<Bug>(this.baseurl + 'api/usuario/registrarUsuario', JSON.stringify(usuario), { headers: httpHeaders })
+    return this.http.post<Bug>(this.url + 'api/usuario/registrarUsuario', JSON.stringify(usuario), { headers: httpHeaders })
       .pipe(
         retry(1),
         catchError(this.handleError)
@@ -93,12 +93,12 @@ export class UsuarioService {
     usuario.password = ""
     usuario.role = []
     
-    return this.http.put<Usuario>(this.baseurl + 'api/usuario/actualizarUsuario/' + usuario.email, JSON.stringify(usuario))
+    return this.http.put<Usuario>(this.url + 'api/usuario/actualizarUsuario/' + usuario.email, usuario)
   }
 
   eliminarUsuario(email: string): Observable<Usuario> {
   // DELLETE
-    return this.http.delete<Usuario>(this.baseurl + 'api/usuario/eliminarUsuario/' + email)
+    return this.http.delete<Usuario>(this.url + 'api/usuario/eliminarUsuario/' + email)
       .pipe(
         // retry(1),
         catchError(this.handleError)
@@ -111,7 +111,7 @@ export class UsuarioService {
     formData.append("imagen", archivo)
     formData.append("email", id)
     
-    const req = new HttpRequest('POST', this.baseurl + 'api/usuario/img/subirFoto', formData, {
+    const req = new HttpRequest('POST', this.url + 'api/usuario/img/subirFoto', formData, {
       reportProgress: true
     });
     return this.http.request(req).pipe(
@@ -131,8 +131,9 @@ export class UsuarioService {
       return
     }
     if (error.status === 401) {
-      alert("Debe iniciar session")
-      this.utilServices.messageWarning("Debe iniciar sesion")
+      alert("Debe iniciar session usuario services  ")
+      // this.utilServices.messageWarning("Debe iniciar sesion")
+      // this.router.navigate(['/home', {"nombre": "nombre"}])
 
     }
     if (error.error instanceof ErrorEvent) {

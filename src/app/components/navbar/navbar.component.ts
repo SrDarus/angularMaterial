@@ -14,7 +14,7 @@ import { AppSettings } from 'src/app/app.config';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  url:string = AppSettings.API_ENDPOINT_LOCAL
+  url: string = AppSettings.API_ENDPOINT_LOCAL
   usuario: Usuario = null
   constructor(
     private router: Router,
@@ -32,24 +32,29 @@ export class NavbarComponent implements OnInit {
         this.usuario = null
       } else {
         this.usuario = nextValue
-        console.log("historial", this.usuario) 
       }
     })
     if (!this.authService.isAuthenticated()) {
       // this.usuario = new Usuario("", [], "", "", "", "", "", "", false)
       this.usuario = null
-      this.router.navigate(['/home']) 
+      this.router.navigate(['/home'])
     } else {
       this.usuarioService.obtenerUsuario(this.usuario.email).subscribe(response => {
         if (response.status === 200) {
-          console.log("resposne.result", response.result)
+          // console.log("resposne.result", response.result)
           this.authService.historial.next(response.result)
           this.usuario = response.result
         }
       })
       this.router.navigate(['/main'])
     }
-    console.log("usuario", this.usuario)
+    // console.log("usuario", this.usuario)
+
+  }
+
+
+  obtenerClientePorId(id, clients) {
+    return clients.find(cliente => cliente.id === id)
   }
 
   login(): void {
@@ -62,7 +67,10 @@ export class NavbarComponent implements OnInit {
     this.usuario = null
     this.authService.cerrarSesion()
     this.utilService.messageWarning("Sesion Cerrada")
-    this.router.navigate(['home'])
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['home']);
+    });
+    // this.router.navigate(['home'])
   }
 
   hasRole(role) {

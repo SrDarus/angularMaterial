@@ -36,7 +36,7 @@ export class LoginComponent {
   iniciarSesion() { 
     // console.log("formLogin", this.formLogin)
     this.authService.login(this.formLogin.value.email, this.formLogin.value.password).subscribe((response: any) => {
-      console.log("response", response)
+      // console.log("response", response)
       this.authService.guardarUsuario(response.access_token)
       this.authService.guardarToken(response.access_token)
       this.utilService.messageGod(`Bienvenido ${response.email}`)

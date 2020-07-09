@@ -2,18 +2,15 @@
     width: 100vw;
     /* min-height: 80vh; */
     border: 1px solid rgba(0, 0, 0, 0.5);
-  }
-  
-  .sidenav-content {
+}
+
+.sidenav-content {
     display: flex;
     min-height: 85vh;
     /*align-items: center;
     justify-content: center;*/
-    
-  }
-  
-  .sidenav {
-    padding: 20px;
-  }
+}
 
-  
+.sidenav {
+    padding: 20px;
+}

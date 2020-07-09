@@ -1,25 +1,22 @@
 <mat-drawer-container class="h-full" [hasBackdrop]="sidenavConfig.hasBackdrop.value">
-  <mat-drawer #drawer [mode]="sidenavConfig.mode.side" class="h-full" opened>
-    <mat-nav-list>
-      <mat-list-item>
-        <a [routerLink]="[{ outlets: { administrador: ['administrarUsuario']}}]">Administrar Usuarios</a>
-      </mat-list-item>
-      <mat-list-item>
-        <a [routerLink]="[{ outlets: { administrador: ['administrarProductos']}}]">Administrar Productos</a>
-      </mat-list-item>
-      <mat-list-item>
-        <a [routerLink]="['/administrarUsuario']">Contact Us</a>
-      </mat-list-item>
-    </mat-nav-list>
-  </mat-drawer>
-  <mat-drawer-content>
-    <button *ngIf="btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
+    <mat-drawer #drawer [mode]="sidenavConfig.mode.side" class="h-full" opened>
+        <mat-nav-list>
+            <mat-list-item>
+                <a [routerLink]="[{ outlets: { administrador: ['administrarUsuario']}}]">Administrar Usuarios</a>
+            </mat-list-item>
+            <mat-list-item>
+                <a [routerLink]="[{ outlets: { administrador: ['administrarProductos']}}]">Administrar Productos</a>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+        <button *ngIf="btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
       <mat-icon>arrow_forward</mat-icon>
     </button>
-    <button *ngIf="!btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
+        <button *ngIf="!btnMenu" mat-icon-button (click)="drawer.toggle(); btnMenu = !btnMenu">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <router-outlet name="administrador" class="bo-warning"></router-outlet>
-  </mat-drawer-content>
+        <router-outlet name="administrador" class="bo-warning"></router-outlet>
+    </mat-drawer-content>
 
 </mat-drawer-container>
